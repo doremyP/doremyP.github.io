@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Others</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="./css/bg.css" />
+    <link rel="stylesheet" href="./css/page1.css" />
+    <style>
+        h1 #title {
+            color: #656a75;
+            text-shadow: #656a75 0 0 15px;
+        }
+
+        h1 #title::after {
+            background: linear-gradient(90deg, transparent, #656a75, transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <img src="assets/img/0614e4c3-a7e0-45ab-852a-9ba405cd1fa0.png" alt="" id="bg" />
+    <h1><button id="title">Others</button></h1>
+    <div id="radarChart"></div>
+    <script src="js/randBg.js"></script>
+    <script src="js/title.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script>
+        fetch('data/c@st.min.json').then(res => res.json()).then(data => {
+            const prodKey = 'Others';
+            // Filter non-transactional, valid staff for max calculations (exclude SideM)
+            const nonSideM = data
+                .filter(prod => prod.production !== 'SideM')
+                .flatMap(prod => prod.staff)
+                .filter(mem => mem.type !== '事务人员' && mem.group !== '非可育成偶像');
+            // Compute max values
+            const maxVals = {
+                age: Math.max(...nonSideM.map(m => m.age || 0)),
+                height: Math.max(...nonSideM.map(m => m.height || 0)),
+                weight: Math.max(...nonSideM.map(m => m.weight || 0)),
+                bust: Math.max(...nonSideM.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] || 0 : 0)),
+                waist: Math.max(...nonSideM.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] || 0 : 0)),
+                hip: Math.max(...nonSideM.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] || 0 : 0))
+            };
+            // Merge 961 and 876 into Others and compute averages for Others
+            const memOthers = data.flatMap(prod => {
+                const key = ['961 Production', '876 Production', 'Others'].includes(prod.production) ? 'Others' : prod.production;
+                return prod.staff.map(mem => ({ ...mem, production: key }));
+            })
+                .filter(mem => mem.production === prodKey && mem.type !== '事务人员' && mem.group !== '非可育成偶像');
+            const mean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+            const avg = {
+                age: mean(memOthers.map(m => m.age).filter(v => v != null)),
+                height: mean(memOthers.map(m => m.height).filter(v => v != null)),
+                weight: mean(memOthers.map(m => m.weight).filter(v => v != null)),
+                bust: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] : null).filter(v => v != null)),
+                waist: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] : null).filter(v => v != null)),
+                hip: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] : null).filter(v => v != null))
+            };
+            // Initialize chart
+            const chart = echarts.init(document.getElementById('radarChart'));
+            chart.setOption({
+                title: { text: '平均属性', left: 'center', top: 15 },
+                textStyle: {
+                    fontFamily: 'font-title', fontSize: 14
+                },
+                tooltip: {},
+                radar: {
+                    shape: 'polygon', splitNumber: 5, center: ['50%', '55%'],
+                    indicator: [
+                        { name: '年龄', max: maxVals.age },
+                        { name: '身高(cm)', max: maxVals.height },
+                        { name: '体重(kg)', max: maxVals.weight },
+                        { name: '胸围(cm)', max: maxVals.bust },
+                        { name: '腰围(cm)', max: maxVals.waist },
+                        { name: '臀围(cm)', max: maxVals.hip }
+                    ],
+                    axisName: { color: '#333' }
+                },
+                series: [{
+                    type: 'radar',
+                    name: 'Others',
+                    data: [{
+                        value: [
+                            +avg.age.toFixed(2),
+                            +avg.height.toFixed(2),
+                            +avg.weight.toFixed(2),
+                            +avg.bust.toFixed(2),
+                            +avg.waist.toFixed(2),
+                            +avg.hip.toFixed(2)
+                        ],
+                        name: 'Others',
+                        itemStyle: { color: '#656a75' },
+                        areaStyle: { color: '#656a75', opacity: 0.3 },
+                        label: { show: true, formatter: ({ value }) => value, color: '#000', fontWeight: 'bold' }
+                    }]
+                }]
+            });
+        });
+    </script>
+</body>
+
+</html>
