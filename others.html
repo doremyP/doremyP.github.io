@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Others</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="./css/bg.css" />
+    <link rel="stylesheet" href="./css/page1.css" />
+    <style>
+        h1 #title {
+            color: #656a75;
+            text-shadow: #656a75 0 0 15px;
+        }
+
+        h1 #title::after {
+            background: linear-gradient(90deg, transparent, #656a75, transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <img alt="" id="bg" data-img='76823812_p0.png,961pro.png,0614e4c3-a7e0-45ab-852a-9ba405cd1fa0.png' />
+    <div id="reminder">
+        <h3 style="margin:0px;">背景图作者：<a href="https://www.pixiv.net/users/3135839" target="_blank"
+                class="reminder">HINA</a></h3>
+        <h3 style="margin:8px 0 6px;">原图地址：</h3>
+        <a href="https://www.pixiv.net/artworks/76823812" target="_blank"
+            class="reminder">https://www.pixiv.net/artworks/76823812</a>
+    </div>
+    <h1><button id="title">Others</button></h1>
+    <div id="radarChart"></div>
+    <script src="js/title.js"></script>
+    <script src="js/randBg.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script>
+        fetch(' data/c@st.min.json').then(res => res.json()).then(data => {
+            const prodKey = 'Others';
+            // Merge 961 and 876 into Others and compute averages for Others
+            const memOthers = data.flatMap(prod => {
+                const key = ['961 Production', '876 Production', 'Others'].includes(prod.production) ? 'Others' : prod.production;
+                return prod.staff.map(mem => ({ ...mem, production: key }));
+            })
+                .filter(mem => mem.production === prodKey && mem.type !== '事务人员' && mem.group !== '非可育成偶像');
+            const mean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+            const avg = {
+                age: mean(memOthers.map(m => m.age).filter(v => v != null)),
+                height: mean(memOthers.map(m => m.height).filter(v => v != null)),
+                weight: mean(memOthers.map(m => m.weight).filter(v => v != null)),
+                bust: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] : null).filter(v => v != null)),
+                waist: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] : null).filter(v => v != null)),
+                hip: mean(memOthers.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] : null).filter(v => v != null))
+            };
+            // Initialize chart
+            const chart = echarts.init(document.getElementById('radarChart'));
+            chart.setOption({
+                title: { text: '平均属性', left: 'center', top: 15 },
+                textStyle: {
+                    fontFamily: 'font-title', fontSize: 14
+                },
+                tooltip: {},
+                radar: {
+                    shape: 'polygon', splitNumber: 5, center: ['50%', '55%'],
+                    indicator: [
+                        { name: '年龄', min: 15, max: 17.5 },
+                        { name: '身高(cm)', min: 155, max: 160 },
+                        { name: '体重(kg)', min: 40, max: 48.5 },
+                        { name: '胸围(cm)', min: 79, max: 82 },
+                        { name: '腰围(cm)', min: 53, max: 57 },
+                        { name: '臀围(cm)', min: 78, max: 83 }
+                    ],
+                    axisName: { color: '#333' }
+                },
+                series: [{
+                    type: 'radar',
+                    name: 'Others',
+                    data: [{
+                        value: [
+                            +avg.age.toFixed(2),
+                            +avg.height.toFixed(2),
+                            +avg.weight.toFixed(2),
+                            +avg.bust.toFixed(2),
+                            +avg.waist.toFixed(2),
+                            +avg.hip.toFixed(2)
+                        ],
+                        name: 'Others',
+                        itemStyle: { color: '#656a75' },
+                        areaStyle: { color: '#656a75', opacity: 0.3 },
+                        label: { show: true, formatter: ({ value }) => value.toFixed(2), color: '#000', fontWeight: 'bold' }
+                    }]
+                }]
+            });
+        });
+    </script>
+</body>
+
+</html>

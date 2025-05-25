@@ -2,176 +2,330 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>これからも、アイドル!!!!!!</title>
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IM@S STATISTICS</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg">
     <link rel="stylesheet" href="./css/bg.css" />
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="./css/page2.css" />
+    <style>
+        #legend {
+            width: 48%;
+            text-align: center;
+            margin: 10px auto 30px auto;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: #ffffffe0;
+            border-radius: 4px;
+            user-select: none;
+        }
+
+        #legend1:hover {
+            width: 70px;
+            background: #f34f6d;
+            box-shadow: 0 8px 12px -3px #f34f6d;
+        }
+
+        #legend2:hover {
+            width: 44px;
+            background: #2681c8;
+            box-shadow: 0 8px 12px -3px #2681c8;
+        }
+
+        #legend3:hover {
+            width: 43px;
+            background: #ffc30b;
+            box-shadow: 0 8px 12px -3px #ffc30b;
+        }
+
+        #legend4:hover {
+            width: 66px;
+            background: #0fbe94;
+            box-shadow: 0 8px 12px -3px #0fbe94;
+        }
+
+        #legend5:hover {
+            width: 42px;
+            background: #8dbbff;
+            box-shadow: 0 8px 12px -3px #8dbbff;
+        }
+
+        #legend6:hover {
+            width: 43px;
+            background: #f39800;
+            box-shadow: 0 8px 12px -3px #f39800;
+        }
+
+        #legend7:hover {
+            width: 71px;
+            background: #656a75;
+            box-shadow: 0 8px 12px -3px #656a75;
+        }
+
+        #legend8:hover {
+            width: 175px;
+            background: #ff74b8;
+            box-shadow: 0 8px 12px -3px #ff74b8;
+        }
+
+        .legend-item {
+            color: #000;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .legend-item:hover {
+            color: #fefefe;
+            border-radius: 4px;
+            padding: 4px 6px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .legend-item:hover .legend-color {
+            display: none;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-right: 4px;
+            position: relative;
+            top: -2px;
+            vertical-align: middle;
+        }
+
+        #charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(816px, 1fr));
+            grid-auto-rows: 400px;
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .chart {
+            width: 816px;
+            height: 400px;
+            background: #ffffffe0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body>
     <img src="assets/img/IM@S_Series_15th_Anniversary_Song_Single_cover.jpg" alt="" id="bg" />
-    <h1><button id="title">角色一览</button></h1>
-    <div id="typing">
-        <span id="typing-text"></span>
-        <span id="ex-mark">
-            <span id="ex-mark1"></span>
-            <span id="ex-mark2"></span>
-            <span id="ex-mark3"></span>
-            <span id="ex-mark4"></span>
-            <span id="ex-mark5"></span>
-            <span id="ex-mark6"></span>
-        </span>
-        <span id="typing-mark"></span>
+    <h1><button id="title">各企划间综合对比</button></h1>
+    <div id="legend">
+        <a id="legend1" class="legend-item" href="765as.html"><span class="legend-color"
+                style="background:#f34f6d"></span>765AS</a>
+        <a id="legend2" class="legend-item" href="cg.html"><span class="legend-color"
+                style="background:#2681c8"></span>CG</a>
+        <a id="legend3" class="legend-item" href="ml.html"><span class="legend-color"
+                style="background:#ffc30b"></span>ML</a>
+        <a id="legend4" class="legend-item" href="sidem.html"><span class="legend-color"
+                style="background:#0fbe94"></span>SideM</a>
+        <a id="legend5" class="legend-item" href="sc.html"><span class="legend-color"
+                style="background:#8dbbff"></span>SC</a>
+        <a id="legend6" class="legend-item" href="gk.html"><span class="legend-color"
+                style="background:#f39800"></span>GK</a>
+        <a id="legend7" class="legend-item" href="others.html"><span class="legend-color"
+                style="background:#656a75"></span>Others</a>
+        <a id="legend8" class="legend-item" href="all.html"><span class="legend-color"
+                style="background:#ff74b8"></span>ALL（不包括SideM）</a>
     </div>
-    <div id="filter-container"></div>
-    <div id="card-container"></div>
-    <div id="modal">
-        <div class="dialog">
-            <span class="close">×</span>
-            <div id="detail-content"></div>
-        </div>
+    <div id="charts">
+        <div id="ageChart" class="chart"></div>
+        <div id="heightChart" class="chart"></div>
+        <div id="weightChart" class="chart"></div>
+        <div id="bustChart" class="chart"></div>
+        <div id="waistChart" class="chart"></div>
+        <div id="hipChart" class="chart"></div>
+        <div id="bmiChart" class="chart"></div>
+        <div id="sideM" class="chart"></div>
+        <div id="hometownChart" class="chart"></div>
+        <div id="handednessChart" class="chart"></div>
     </div>
-
     <script src="js/title.js"></script>
-    <script src="./js/typing.js"></script>
+    <script src="js/echarts.min.js"></script>
     <script>
-        fetch('data/c@st.min.json').then(r => r.json()).then(data => {
-            const container = document.getElementById('card-container');
-            const filterContainer = document.getElementById('filter-container');
-            const modal = document.getElementById('modal');
-            const detail = document.getElementById('detail-content');
-            const closeBtn = document.querySelector('.close');
+        fetch('data/c@st.min.json')
+            .then(res => res.json())
+            .then(data => {
+                const known = { "THE IDOLM@STER": "765AS", "CINDERELLA GIRLS": "CG", "MILLION LIVE!": "ML", "SideM": "SideM", "SHINY COLORS": "SC", "Gakuen": "GK" };
+                const colors = { "765AS": "#f34f6d", "CG": "#2681c8", "ML": "#ffc30b", "SideM": "#0fbe94", "SC": "#8dbbff", "GK": "#f39800", "Others": "#656a75", "All": "#ff74b8" };
+                const prods = Object.keys(known);
 
-            // Flatten staff; merge 961 and 876 productions into Others
-            const allRoles = data.flatMap(prod => prod.staff.map(mem => ({
-                ...mem,
-                production: ['961 Production', '876 Production'].includes(prod.production) ? 'Others' : prod.production
-            })));
-            // Collect unique productions, exclude Others
-            const productions = Array.from(new Set(allRoles.map(r => r.production))).filter(p => p !== 'Others');
-            // Buttons order: All, each production, Others, Active
-            const buttons = ['ALL', ...productions, 'Others', 'Active'];
-            let selected = new Set(['ALL']);
-            let activeFilter = true;
-            let sortAttr = '';
+                let stats = {}, bmiStats = {}, hometownCounts = {}, handedCounts = {};
+                prods.forEach(p => { stats[p] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] }; bmiStats[p] = []; });
+                stats['Others'] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] }; bmiStats['Others'] = [];
 
-            const colorMap = {
-                'ALL': '#ff74b8', 'THE IDOLM@STER': '#f34f6d', 'CINDERELLA GIRLS': '#2681c8', 'MILLION LIVE!': '#ffc30b',
-                'SideM': '#0fbe94', 'SHINY COLORS': '#8dbbff', 'Gakuen': '#f39800', 'Active': '#656a75', 'Others': '#656a75'
-            };
-
-            // filter and sort UI
-            buttons.forEach(name => {
-                const btn = document.createElement('button');
-                btn.textContent = name === 'Active' ? 'IDOL' : name;
-                btn.dataset.prod = name;
-                btn.style.setProperty('--btn-color', colorMap[name] || '#656a75');
-                if (name === 'ALL' || name === 'Active') btn.classList.add('active');
-                btn.onclick = () => {
-                    if (name === 'ALL') selected = new Set(['ALL']);
-                    else if (name === 'Active') activeFilter = !activeFilter;
-                    else {
-                        selected.has(name) ? selected.delete(name) : selected.add(name);
-                        if (selected.has('ALL')) selected.delete('ALL');
-                        if (selected.size === 0 || (productions.every(p => selected.has(p)) && selected.has('Others'))) selected = new Set(['ALL']);
+                data.forEach(prod => prod.staff.forEach(mem => {
+                    if (mem.type === "事务人员" || mem.group === "非可育成偶像") return;
+                    const key = prods.includes(prod.production) ? prod.production : 'Others';
+                    const s = stats[key];
+                    if (mem.age != null) s.ages.push(mem.age);
+                    if (mem.height != null) s.heights.push(mem.height);
+                    if (mem.weight != null) s.weights.push(mem.weight);
+                    if (Array.isArray(mem.three_sizes)) {
+                        const [b, w, h] = mem.three_sizes;
+                        if (b != null) s.busts.push(b);
+                        if (w != null) s.waists.push(w);
+                        if (h != null) s.hips.push(h);
                     }
-                    updateFilters(); updateCards();
+                    if (typeof mem.height === 'number' && !isNaN(mem.height) && typeof mem.weight === 'number' && !isNaN(mem.weight)) {
+                        bmiStats[key].push(mem.weight / ((mem.height / 100) ** 2));
+                    }
+                    if (mem.hometown != null) hometownCounts[mem.hometown] = (hometownCounts[mem.hometown] || 0) + 1;
+                    if (mem.handedness != null) handedCounts[mem.handedness] = (handedCounts[mem.handedness] || 0) + 1;
+                }));
+
+                const meanArr = arr => arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2) : 0;
+                let avg = {}, avgBmi = {};
+                Object.entries(stats).forEach(([k, s]) => {
+                    avg[k] = {
+                        age: meanArr(s.ages),
+                        height: meanArr(s.heights),
+                        weight: meanArr(s.weights),
+                        bust: meanArr(s.busts),
+                        waist: meanArr(s.waists),
+                        hip: meanArr(s.hips)
+                    };
+                });
+                Object.entries(bmiStats).forEach(([k, arr]) => { avgBmi[k] = arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2) : 0; });
+
+                const allKeys = ['Others', ...prods.filter(p => 'SideM' !== p)];
+                let combined = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] };
+                allKeys.forEach(k => {
+                    combined.ages = combined.ages.concat(stats[k].ages);
+                    combined.heights = combined.heights.concat(stats[k].heights);
+                    combined.weights = combined.weights.concat(stats[k].weights);
+                    combined.busts = combined.busts.concat(stats[k].busts);
+                    combined.waists = combined.waists.concat(stats[k].waists);
+                    combined.hips = combined.hips.concat(stats[k].hips);
+                });
+                avg['All'] = {
+                    age: meanArr(combined.ages),
+                    height: meanArr(combined.heights),
+                    weight: meanArr(combined.weights),
+                    bust: meanArr(combined.busts),
+                    waist: meanArr(combined.waists),
+                    hip: meanArr(combined.hips)
                 };
-                filterContainer.appendChild(btn);
-            });
-            const sortSelect = document.createElement('select');
-            sortSelect.innerHTML = `
-            <option value="">默认</option>
-            <option value="age">年龄</option>
-            <option value="height">身高</option>
-            <option value="weight">体重</option>
-            <option value="bust">胸围</option>
-            <option value="waist">腰围</option>
-            <option value="hip">臀围</option>
-            <option value="bmi">BMI</option>
-        `;
-            sortSelect.onchange = () => { sortAttr = sortSelect.value; updateCards(); };
-            filterContainer.appendChild(sortSelect);
+                let allBmiArr = allKeys.flatMap(k => bmiStats[k]);
+                avgBmi['All'] = allBmiArr.length ? (allBmiArr.reduce((a, b) => a + b, 0) / allBmiArr.length).toFixed(2) : 0;
 
-            function updateFilters() {
-                document.querySelectorAll('#filter-container button').forEach(b => {
-                    const p = b.dataset.prod;
-                    b.classList.toggle('active', p === 'Active' ? activeFilter : selected.has(p));
-                });
-            }
+                const plotCats = [...prods.filter(p => 'SideM' !== p), 'Others', 'All'];
+                const plotCatsBmi = [...prods, 'Others', 'All'];
+                const labels = plotCats.map(p => known[p] || p);
+                const labelsBmi = plotCatsBmi.map(p => known[p] || p);
+                const fileMap = { '765AS': '765as', 'CG': 'cg', 'ML': 'ml', 'SC': 'sc', 'GK': 'gk', 'Others': 'others', 'All': 'all', 'SideM': 'sidem' };
 
-            function getVal(r) {
-                switch (sortAttr) {
-                    case 'age': return r.age;
-                    case 'height': return r.height;
-                    case 'weight': return r.weight;
-                    case 'bust': return Array.isArray(r.three_sizes) ? r.three_sizes[0] : null;
-                    case 'waist': return Array.isArray(r.three_sizes) ? r.three_sizes[1] : null;
-                    case 'hip': return Array.isArray(r.three_sizes) ? r.three_sizes[2] : null;
-                    case 'bmi': return (r.height && r.weight) ? r.weight / ((r.height / 100) ** 2) : null;
-                    default: return null;
+                function drawBarMetric(id, title, field, min) {
+                    const chart = echarts.init(document.getElementById(id));
+                    chart.setOption({
+                        title: { text: title, left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title' },
+                        grid: { top: 80, containLabel: true },
+                        tooltip: { trigger: 'item', formatter: params => `${title}<br/>${params.marker}${params.name} ${params.value.toFixed(2)}` },
+                        xAxis: { show: false, data: labels },
+                        yAxis: { type: 'value', min },
+                        series: [{
+                            type: 'bar',
+                            data: plotCats.map(p => ({ value: +avg[p][field], itemStyle: { color: colors[p in known ? known[p] : p] } })),
+                            barWidth: '50%',
+                            label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
+                        }]
+                    });
+                    chart.on('click', e => window.location.href = fileMap[e.name] + '.html');
                 }
-            }
 
-            function updateCards() {
-                container.innerHTML = '';
-                let list = allRoles.filter(r => {
-                    const pm = selected.has('ALL') || selected.has(r.production);
-                    const am = !activeFilter || (r.type !== '事务人员' && r.group !== '非可育成偶像');
-                    if (!pm || !am) return false;
-                    if (sortAttr) { const v = getVal(r); return v != null; }
-                    return true;
+                function drawBarData(id, title, dataMap, min) {
+                    const chart = echarts.init(document.getElementById(id));
+                    chart.setOption({
+                        title: { text: title, left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title' },
+                        grid: { top: 80, containLabel: true },
+                        tooltip: { trigger: 'item', formatter: params => `${title}<br />${params.marker}${params.name} ${params.value.toFixed(2)}` },
+                        xAxis: { show: false, data: labelsBmi },
+                        yAxis: { type: 'value', min },
+                        series: [{
+                            type: 'bar',
+                            data: plotCatsBmi.map(p => ({ value: +dataMap[p], itemStyle: { color: colors[p in known ? known[p] : p] } })),
+                            barWidth: '50%',
+                            label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
+                        }]
+                    });
+                    chart.on('click', e => window.location.href = fileMap[e.name] + '.html');
+                }
+
+                drawBarMetric('ageChart', '平均年龄', 'age', 15);
+                drawBarMetric('heightChart', '平均身高(cm)', 'height', 155);
+                drawBarMetric('weightChart', '平均体重(kg)', 'weight', 40);
+                drawBarMetric('bustChart', '平均胸围(cm)', 'bust', 79);
+                drawBarMetric('waistChart', '平均腰围(cm)', 'waist', 53);
+                drawBarMetric('hipChart', '平均臀围(cm)', 'hip', 78);
+                drawBarData('bmiChart', '平均 BMI', avgBmi, 16);
+
+                const radar = echarts.init(document.getElementById('sideM'));
+                const s = avg['SideM'], ss = stats['SideM'];
+                radar.setOption({
+                    title: { text: 'SideM', left: 'center', top: 20 },
+                    textStyle: {
+                        fontFamily: 'font-title', fontSize: 14
+                    },
+                    tooltip: {},
+                    radar: {
+                        indicator: [
+                            { name: '年龄', min: Math.min(...ss.ages), max: Math.max(...ss.ages) - 10 },
+                            { name: '身高(cm)', min: Math.min(...ss.heights), max: Math.max(...ss.heights) - 10 },
+                            { name: '体重(kg)', min: Math.min(...ss.weights), max: Math.max(...ss.weights) - 10 }
+                        ],
+                        axisName: { color: '#333' },
+                        center: ['50%', '55%'], radius: '60%'
+                    },
+                    series: [{
+                        type: 'radar',
+                        data: [{ value: [s.age, s.height, s.weight], name: 'SideM', areaStyle: { opacity: 0.3 } }],
+                        label: { show: true, formatter: '{c}', fontWeight: 'bold' },
+                        itemStyle: { color: colors['SideM'] }
+                    }]
                 });
-                if (sortAttr) list.sort((a, b) => {
-                    const va = getVal(a), vb = getVal(b);
-                    if (va === vb) {
-                        if (a.age === b.age)
-                        // age 相同，按 birthday（MMDD）倒序
-                        {
-                            const ba = parseInt(a.birthday, 10) || 0;
-                            const bb = parseInt(b.birthday, 10) || 0;
-                            if (sortAttr === "age")
-                                return bb - ba;
-                            return ba - bb;
+                radar.on('click', () => window.location.href = fileMap['SideM'] + '.html');
 
-                        }
-                        return b.age - a.age;
-                    }
-                    return va - vb;
+                let homeData = Object.entries(hometownCounts).map(([n, v]) => ({ name: n, value: v }));
+                homeData.sort((a, b) => b.value - a.value);
+                const homeChart = echarts.init(document.getElementById('hometownChart'));
+                homeChart.setOption({
+                    title: { text: '出身地分布', left: 'center', top: 20 },
+                    textStyle: {
+                        fontFamily: 'font-title',
+                        fontSize: 14
+                    },
+                    tooltip: { trigger: 'item', formatter: params => `${params.name}<br/>${params.marker} ${params.value}人<br/>${params.marker} ${params.percent}%` },
+                    legend: { type: 'scroll', orient: 'vertical', left: 10, top: 20, bottom: 20, data: homeData.map(d => d.name) },
+                    series: [{ type: 'pie', radius: '50%', data: homeData, emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)' } } }]
                 });
-                list.forEach(role => {
-                    const card = document.createElement('div'); card.className = 'card';
-                    const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
-                    const clr = main.includes(role.production) ? colorMap[role.production] : colorMap['Others'];
-                    card.style.border = `2px solid ${clr}`;
-                    card.style.boxShadow = `inset 0 0 8px ${clr}`;
-                    if (role.img) { const img = document.createElement('img'); img.src = role.img; card.appendChild(img); } else { const ph = document.createElement('div'); ph.className = 'img-placeholder'; card.appendChild(ph); }
-                    const nm = document.createElement('div'); nm.className = 'name';
-                    let lbl = role.name;
-                    if (sortAttr) { const v = getVal(role); lbl += sortAttr === 'age' ? ` (${v})` : (['height', 'weight', 'bust', 'waist', 'hip'].includes(sortAttr) ? ` (${v.toFixed(1)})` : ` (${v.toFixed(2)})`); }
-                    nm.textContent = lbl; card.appendChild(nm);
-                    card.onclick = () => showDetail(role);
-                    container.appendChild(card);
+
+                let handData = Object.entries(handedCounts).map(([n, v]) => ({ name: n, value: v }));
+                const handChart = echarts.init(document.getElementById('handednessChart'));
+                handChart.setOption({
+                    title: { text: '惯用手分布', left: 'center', top: 20 },
+                    textStyle: {
+                        fontFamily: 'font-title',
+                        fontSize: 16
+                    },
+                    tooltip: { trigger: 'item', formatter: params => `${params.name}<br/>${params.marker} ${params.value}人<br/>${params.marker} ${params.percent}%` },
+                    legend: { orient: 'vertical', top: 16, left: 10, data: handData.map(d => d.name) },
+                    series: [{
+                        type: 'pie',
+                        radius: '50%',
+                        data: handData,
+                        emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)' } }
+                    }]
                 });
-            }
 
-            function showDetail(role) {
-                const dlg = document.querySelector('#modal .dialog'); dlg.style.border = ''; dlg.style.boxShadow = '';
-                if (role.image_color) { dlg.style.border = `2px solid ${role.image_color}`; dlg.style.boxShadow = `inset 0 0 8px ${role.image_color}`; }
-                detail.innerHTML = ''; const textDiv = document.createElement('div'); textDiv.className = 'text';
-                const h2 = document.createElement('h2'); h2.textContent = role.name; textDiv.appendChild(h2);
-                const detailFields = [['声优', 'cv'], ['年龄', 'age'], ['生日', 'birthday'], ['性别', 'gender'], ['血型', 'blood_type'], ['出身', 'hometown'], ['身高', 'height'], ['体重', 'weight'], ['胸围', 'three_sizes'], ['腰围', 'three_sizes'], ['臀围', 'three_sizes'], ['所属团体', 'group'], ['首次登场', 'debut_date'], ['介绍', 'bio']];
-                detailFields.forEach(([label, key]) => { let val = role[key]; if (val == null) return; if (key === 'birthday' && typeof val === 'string' && val.length === 4) { const m = parseInt(val.slice(0, 2)); const d = parseInt(val.slice(2)); val = `${m}月${d}日`; } if (label === '胸围') { val = Array.isArray(role.three_sizes) ? role.three_sizes[0] : null; } else if (label === '腰围') { val = Array.isArray(role.three_sizes) ? role.three_sizes[1] : null; } else if (label === '臀围') { val = Array.isArray(role.three_sizes) ? role.three_sizes[2] : null; } if (val == null) return; const div = document.createElement('div'); div.className = 'info'; div.innerHTML = `<strong>${label}:</strong> ${val}`; textDiv.appendChild(div); });
-                if (role.img) { const imgEl = document.createElement('img'); imgEl.src = role.img; detail.append(textDiv, imgEl); } else detail.append(textDiv);
-                modal.style.display = 'flex';
-            }
-
-            updateFilters(); updateCards();
-            closeBtn.onclick = () => modal.style.display = 'none';
-            modal.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
-        });
+            });
     </script>
 </body>
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40.63 38.74">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#_名称未設定グラデーション_271);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: url(#_名称未設定グラデーション_53);
+      }
+
+      .cls-3 {
+        fill: url(#_名称未設定グラデーション_40);
+      }
+
+      .cls-4 {
+        fill: url(#_名称未設定グラデーション_50);
+      }
+
+      .cls-5 {
+        fill: url(#_名称未設定グラデーション_56);
+      }
+
+      .cls-6 {
+        fill: url(#_名称未設定グラデーション_47);
+      }
+    </style>
+    <linearGradient id="_名称未設定グラデーション_40" data-name="名称未設定グラデーション 40" x1="6.21" y1="8.48" x2="21.85" y2="8.48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c84d2"/>
+      <stop offset="1" stop-color="#4696d2"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_271" data-name="名称未設定グラデーション 271" x1="0" y1="23.27" x2="15.2" y2="23.27" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f39800"/>
+      <stop offset="1" stop-color="#ffb448"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_50" data-name="名称未設定グラデーション 50" x1="7.39" y1="32.72" x2="27.49" y2="32.72" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#82b5ff"/>
+      <stop offset="1" stop-color="#acf"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_56" data-name="名称未設定グラデーション 56" x1="25.44" y1="28.82" x2="35.99" y2="28.82" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#17c581"/>
+      <stop offset="1" stop-color="#56d0a0"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_53" data-name="名称未設定グラデーション 53" x1="21.34" y1="11.31" x2="40.63" y2="11.31" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f7c00f"/>
+      <stop offset="1" stop-color="#ffdc4d"/>
+    </linearGradient>
+    <linearGradient id="_名称未設定グラデーション_47" data-name="名称未設定グラデーション 47" x1="12.88" y1="20.57" x2="27.76" y2="20.57" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff436c"/>
+      <stop offset="1" stop-color="#f86e91"/>
+    </linearGradient>
+  </defs>
+  <g id="menu">
+    <g>
+      <path class="cls-3" d="m21.24.67c-.29-.89-1.55-.89-1.84,0l-4.35,13.39H6.21l4,2.9h6.95l4.69-14.42-.61-1.87Z"/>
+      <path class="cls-1" d="m2.92,14.06H.97c-.94,0-1.33,1.2-.57,1.75l11.39,8.28-2.73,8.41,4-2.91,2.15-6.61L2.92,14.06Z"/>
+      <path class="cls-4" d="m25.93,30.77l-5.62-4.08-12.28,8.94-.6,1.84c-.29.89.73,1.63,1.49,1.08l11.39-8.27,7.17,5.21-1.55-4.72Z"/>
+      <path class="cls-5" d="m28.85,24.08l7.14-5.19h-4.94l-5.62,4.08,4.73,14.46,1.54,1.12c.76.55,1.78-.19,1.49-1.08l-4.35-13.39Z"/>
+      <path class="cls-2" d="m39.66,14.06h-14.07l-2.73-8.39-1.53,4.7,2.14,6.59h15.17s1.58-1.15,1.58-1.15c.76-.55.37-1.75-.57-1.75Z"/>
+      <polygon class="cls-6" points="27.76 18.89 22.08 18.89 20.32 13.49 18.56 18.89 12.88 18.89 17.48 22.24 15.72 27.64 20.32 24.3 24.92 27.64 23.16 22.24 27.76 18.89"/>
+    </g>
+  </g>
+</svg>
