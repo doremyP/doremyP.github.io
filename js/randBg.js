@@ -10,11 +10,11 @@
     popup = document.getElementById('reminder');
     if (!popup) return
 
-    var showDelay = 500;       // 页面加载后自动显示延迟（毫秒）
-    var visibleDuration = 5000; // 自动隐藏前的停留时间（毫秒）
+    // 设置弹出框
+    var showDelay = 500;
+    var visibleDuration = 5000;
     var hideTimer;
 
-    // 事件绑定
     popup.addEventListener('mouseenter', function () {
         clearTimeout(hideTimer);
         popup.style.right = '0';
