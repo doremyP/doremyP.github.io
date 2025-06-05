@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SHINY COLORS</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="stylesheet" href="./css/bg.css" />
-    <link rel="stylesheet" href="./css/page1.css" />
+    <link rel="stylesheet" href="css/bg.css">
+    <link rel="stylesheet" href="css/page2.css">
     <style>
         h1 #title {
             color: #8dbbff;
@@ -23,27 +23,42 @@
 <body>
     <img src="assets/img/scbg.jpg" alt="" id="bg" />
     <h1><button id="title">SHINY COLORS </button></h1>
-    <div id="radarChart"></div>
+    <div id="charts">
+        <div id="radarChart" class="chart"></div>
+        <div id="barAge" class="chart"></div>
+        <div id="barHeight" class="chart"></div>
+        <div id="barWeight" class="chart"></div>
+        <div id="barBust" class="chart"></div>
+        <div id="barWaist" class="chart"></div>
+        <div id="barHip" class="chart"></div>
+        <div id="barBMI" class="chart"></div>
+    </div>
+    <div class="legend">
+        <span class="legend-item"><span class="legend-color" style="background:#e03c6e"></span>Stella</span>
+        <span class="legend-item"><span class="legend-color" style="background:#1c35f1"></span>Luna</span>
+        <span class="legend-item"><span class="legend-color" style="background:#ecec14"></span>Sol</span>
+    </div>
     <script src="js/title.js"></script>
     <script src="js/echarts.min.js"></script>
     <script>
         fetch('data/c@st.min.json').then(res => res.json()).then(data => {
+            // Filter valid SC staff
             const prodKey = 'SHINY COLORS';
-            // Compute averages for SC
-            const memSC = data.find(prod => prod.production === prodKey)?.staff
-                .filter(mem => mem.type !== '事务人员' && mem.group !== '非可育成偶像') || [];
+            const all = data.flatMap(p => p.staff.map(m => ({ ...m, production: p.production })));
+
+            const sc = all.filter(m => m.production === prodKey && m.type !== '事务人员' && m.group !== '非可育成偶像');
             const mean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
             const avg = {
-                age: mean(memSC.map(m => m.age).filter(v => v != null)),
-                height: mean(memSC.map(m => m.height).filter(v => v != null)),
-                weight: mean(memSC.map(m => m.weight).filter(v => v != null)),
-                bust: mean(memSC.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] : null).filter(v => v != null)),
-                waist: mean(memSC.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] : null).filter(v => v != null)),
-                hip: mean(memSC.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] : null).filter(v => v != null))
+                age: mean(sc.map(m => m.age).filter(v => v != null)),
+                height: mean(sc.map(m => m.height).filter(v => v != null)),
+                weight: mean(sc.map(m => m.weight).filter(v => v != null)),
+                bust: mean(sc.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] : null).filter(v => v != null)),
+                waist: mean(sc.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] : null).filter(v => v != null)),
+                hip: mean(sc.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] : null).filter(v => v != null))
             };
-            // Initialize chart
-            const chart = echarts.init(document.getElementById('radarChart'));
-            chart.setOption({
+            // Radar
+            const radar = echarts.init(document.getElementById('radarChart'));
+            radar.setOption({
                 title: { text: '平均属性', left: 'center', top: 15 },
                 textStyle: {
                     fontFamily: 'font-title', fontSize: 14
@@ -58,27 +73,55 @@
                         { name: '胸围(cm)', min: 79, max: 82 },
                         { name: '腰围(cm)', min: 53, max: 57 },
                         { name: '臀围(cm)', min: 78, max: 83 }
-                    ],
-                    axisName: { color: '#333' }
+                    ], axisName: { color: '#333' }
                 },
                 series: [{
-                    type: 'radar',
-                    name: 'SC',
-                    data: [{
-                        value: [
-                            +avg.age.toFixed(2),
-                            +avg.height.toFixed(2),
-                            +avg.weight.toFixed(2),
-                            +avg.bust.toFixed(2),
-                            +avg.waist.toFixed(2),
-                            +avg.hip.toFixed(2)
-                        ],
+                    name: 'SC', type: 'radar', data: [{
+                        value: [+avg.age.toFixed(2), +avg.height.toFixed(2), +avg.weight.toFixed(2), +avg.bust.toFixed(2), +avg.waist.toFixed(2), +avg.hip.toFixed(2)],
                         name: 'SHINY COLORS',
-                        itemStyle: { color: '#8dbbff' },
-                        areaStyle: { color: '#8dbbff', opacity: 0.3 },
-                        label: { show: true, formatter: ({ value }) => value.toFixed(2), color: '#000', fontWeight: 'bold' }
+                        itemStyle: { color: '#8dbbff' }, areaStyle: { color: '#8dbbff', opacity: 0.3 }, label: { show: true, formatter: ({ value }) => value.toFixed(2), fontWeight: 'bold' }
                     }]
                 }]
+            });
+            // Bar by type
+            const types = ['Stella', 'Luna', 'Sol'];
+            const colors = { Stella: '#e03c6e', Luna: '#1c35f1', Sol: '#ecec14' };
+            const typeData = types.map(t => {
+                const arr = sc.filter(m => m.type === t);
+                return {
+                    age: mean(arr.map(m => m.age).filter(v => v != null)),
+                    height: mean(arr.map(m => m.height).filter(v => v != null)),
+                    weight: mean(arr.map(m => m.weight).filter(v => v != null)),
+                    bust: mean(arr.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[0] : null).filter(v => v != null)),
+                    waist: mean(arr.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[1] : null).filter(v => v != null)),
+                    hip: mean(arr.map(m => Array.isArray(m.three_sizes) ? m.three_sizes[2] : null).filter(v => v != null)),
+                    bmi: mean(arr.map(m => m.height && m.weight ? m.weight / ((m.height / 100) ** 2) : null).filter(v => v != null))
+                };
+            });
+            const metrics = [
+                { id: 'barAge', key: 'age', title: '平均年龄', min: 15 },
+                { id: 'barHeight', key: 'height', title: '平均身高(cm)', min: 150 },
+                { id: 'barWeight', key: 'weight', title: '平均体重(kg)', min: 40 },
+                { id: 'barBust', key: 'bust', title: '平均胸围(cm)', min: 75 },
+                { id: 'barWaist', key: 'waist', title: '平均腰围(cm)', min: 50 },
+                { id: 'barHip', key: 'hip', title: '平均臀围(cm)', min: 75 },
+                { id: 'barBMI', key: 'bmi', title: '平均BMI', min: 15 }
+            ];
+            metrics.forEach(met => {
+                const chart = echarts.init(document.getElementById(met.id));
+                chart.setOption({
+                    title: { text: met.title, left: 'center', top: 20 },
+                    textStyle: { fontFamily: 'font-title' },
+                    grid: { top: 80, containLabel: true },
+                    tooltip: { trigger: 'item', formatter: params => `${params.seriesName}<br />${params.marker}${params.name} ${params.value.toFixed(2)}` },
+                    xAxis: { show: false, data: types },
+                    yAxis: { type: 'value', min: met.min },
+                    series: [{
+                        name: met.title, type: 'bar', barWidth: '50%',
+                        data: types.map((t, i) => ({ value: typeData[i][met.key], itemStyle: { color: colors[t] } })),
+                        label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
+                    }]
+                });
             });
         });
     </script>

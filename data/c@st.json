@@ -7616,7 +7616,7 @@
                 "bio": "兴趣：音乐鉴赏。特技：家事",
                 "hometown": "埼玉県",
                 "image_color": "#a6cdb6",
-                "type": null,
+                "type": "Sol",
                 "group": "シーズ",
                 "debut_date": "2021-04-05",
                 "img": "assets/img/ims_img348.png"
@@ -7639,7 +7639,7 @@
                 "bio": "兴趣：作词作曲。特技：舞蹈编排",
                 "hometown": "北海道",
                 "image_color": "#760f10",
-                "type": null,
+                "type": "Stella",
                 "group": "シーズ",
                 "debut_date": "2021-04-08",
                 "img": "assets/img/ims_img349.png"
@@ -7662,7 +7662,7 @@
                 "bio": "兴趣：无。特技：无",
                 "hometown": "神奈川県",
                 "image_color": "#35281f",
-                "type": null,
+                "type": "Luna",
                 "group": "コメティック",
                 "debut_date": "2023-04-01",
                 "img": "assets/img/ims_img350.png"
@@ -7685,7 +7685,7 @@
                 "bio": "兴趣：散步。特技：以很美味的感觉吃东西",
                 "hometown": "岡山県",
                 "image_color": "#e0b5d3",
-                "type": null,
+                "type": "Stella",
                 "group": "コメティック",
                 "debut_date": "2023-10-21",
                 "img": "assets/img/ims_img351.png"
@@ -7708,7 +7708,7 @@
                 "bio": "兴趣：逛街，收拾整理。特技：画插画",
                 "hometown": "長野県",
                 "image_color": "#ead7a4",
-                "type": null,
+                "type": "Sol",
                 "group": "コメティック",
                 "debut_date": "2023-10-21",
                 "img": "assets/img/ims_img352.png"
