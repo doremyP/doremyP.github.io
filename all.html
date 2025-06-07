@@ -47,6 +47,7 @@
 
     <script src="js/title.js"></script>
     <script src="./js/typing.js"></script>
+    <script src="js/echarts.min.js"></script>
     <script>
         fetch('data/c@st.min.json').then(r => r.json()).then(data => {
             const container = document.getElementById('card-container');
@@ -156,8 +157,7 @@
                     const card = document.createElement('div'); card.className = 'card';
                     const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
                     const clr = main.includes(role.production) ? colorMap[role.production] : colorMap['Others'];
-                    card.style.border = `2px solid ${clr}`;
-                    card.style.boxShadow = `inset 0 0 8px ${clr}`;
+                    card.style.boxShadow = `inset 0 0 12px ${clr}`;
                     if (role.img) { const img = document.createElement('img'); img.src = role.img; card.appendChild(img); } else { const ph = document.createElement('div'); ph.className = 'img-placeholder'; card.appendChild(ph); }
                     const nm = document.createElement('div'); nm.className = 'name';
                     let lbl = role.name;
@@ -170,13 +170,49 @@
 
             function showDetail(role) {
                 const dlg = document.querySelector('#modal .dialog'); dlg.style.border = ''; dlg.style.boxShadow = '';
-                if (role.image_color) { dlg.style.border = `2px solid ${role.image_color}`; dlg.style.boxShadow = `inset 0 0 8px ${role.image_color}`; }
+                if (role.image_color) { dlg.style.boxShadow = `inset 0 0 12px ${role.image_color}`; }
                 detail.innerHTML = ''; const textDiv = document.createElement('div'); textDiv.className = 'text';
                 const h2 = document.createElement('h2'); h2.textContent = role.name; textDiv.appendChild(h2);
-                const detailFields = [['声优', 'cv'], ['年龄', 'age'], ['生日', 'birthday'], ['性别', 'gender'], ['血型', 'blood_type'], ['出身', 'hometown'], ['身高', 'height'], ['体重', 'weight'], ['三围', 'three_sizes'], ['所属组合', 'group'], ['首次登场', 'debut_date'], ['介绍', 'bio']];
-                detailFields.forEach(([label, key]) => { let val = role[key]; if (val == null) return; if (key === 'birthday' && typeof val === 'string' && val.length === 4) { const m = parseInt(val.slice(0, 2)); const d = parseInt(val.slice(2)); val = `${m}月${d}日`; } if (key === 'three_sizes') { val = Array.isArray(role.three_sizes) ? `${role.three_sizes[0]}/${role.three_sizes[1]}/${role.three_sizes[2]}` : null; } if (key === 'group' && val === '非可育成偶像') { return; } if (val == null) return; const div = document.createElement('div'); div.className = 'info'; div.innerHTML = `<strong>${label}:</strong> ${val}`; textDiv.appendChild(div); });
+                const detailFields = [['声优', 'cv'], ['生日', 'birthday'], ['血型', 'blood_type'], ['出身', 'hometown'], ['惯用手', 'handedness'], ['所属组合', 'group'], ['首次登场', 'debut_date'], ['介绍', 'bio']];
+                detailFields.forEach(([label, key]) => { let val = role[key]; if (val == null) return; if (key === 'birthday' && typeof val === 'string' && val.length === 4) { const m = parseInt(val.slice(0, 2)); const d = parseInt(val.slice(2)); val = `${m}月${d}日`; } if (key === 'group' && val === '非可育成偶像') { return; } if (val == null) return; const div = document.createElement('div'); div.className = 'info'; div.innerHTML = `<strong>${label}:</strong> ${val}`; textDiv.appendChild(div); });
+                const radarContainer = document.createElement('div'); radarContainer.id = 'radarChart'; radarContainer.style.width = '100%'; radarContainer.style.height = '260px'; textDiv.appendChild(radarContainer);
                 if (role.img) { const imgEl = document.createElement('img'); imgEl.src = role.img; detail.append(textDiv, imgEl); } else detail.append(textDiv);
                 modal.style.display = 'flex';
+
+                const radarChart = echarts.init(radarContainer);
+                // 构造 indicator 和数据
+                const dims = [
+                    { name: '年龄', value: role.age },
+                    { name: '身高(cm)', value: role.height },
+                    { name: '体重(kg)', value: role.weight },
+                    { name: '胸围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[0] : null },
+                    { name: '腰围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[1] : null },
+                    { name: '臀围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[2] : null },
+                ].filter(d => d.value != null);
+                const minVals = { '年龄': 9, '身高(cm)': 127, '体重(kg)': 28, '胸围(cm)': 60, '腰围(cm)': 47, '臀围(cm)': 65 };
+                const maxVals = { '年龄': 31, '身高(cm)': 180, '体重(kg)': 61, '胸围(cm)': 100, '腰围(cm)': 67, '臀围(cm)': 93 };
+                const option = {
+                    textStyle: {
+                        fontFamily: 'font-title', fontSize: 14
+                    },
+                    tooltip: {},
+                    radar: {
+                        shape: 'polygon', splitNumber: 5, center: ['50%', '50%'],
+                        indicator: dims.map(d => ({ name: d.name, min: minVals[d.name], max: maxVals[d.name] })),
+                        axisName: { color: '#333' }
+                    },
+                    series: [{
+                        type: 'radar',
+                        data: [{
+                            value: dims.map(d => d.value),
+                            name: role.name,
+                            areaStyle: { color: role.image_color, opacity: 0.3 },
+                            itemStyle: { color: role.image_color },
+                            lineStyle: { color: role.image_color }
+                        }],
+                    }]
+                };
+                radarChart.setOption(option);
             }
 
             updateFilters(); updateCards();

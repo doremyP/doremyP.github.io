@@ -7,7 +7,6 @@
     <title>IM@S STATISTICS</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
     <link rel="stylesheet" href="css/bg.css">
-    <link rel="stylesheet" href="css/page2.css">
     <style>
         #legend {
             width: 48%;
@@ -78,7 +77,7 @@
             color: #fefefe;
             border-radius: 4px;
             padding: 4px 6px;
-            transition: all 0.3s ease-in-out;
+            transition: 0.4s;
         }
 
         .legend-item:hover .legend-color {
@@ -95,20 +94,186 @@
             vertical-align: middle;
         }
 
-        #charts {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(816px, 1fr));
-            grid-auto-rows: 400px;
-            gap: 20px;
-            justify-items: center;
-        }
-
-        .chart {
-            width: 816px;
-            height: 400px;
+        #chartWrapper {
+            width: 1180px;
+            margin: 0 auto 40px;
             background: #ffffffe0;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #modeToggle {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            gap: 160px;
+            padding: 20px 0 10px;
+        }
+
+        #modeToggle button,
+        #barChartStaticBtns button,
+        #barChartBtns button,
+        #prodBtns button,
+        #distBtns button {
+            width: 100px;
+            padding: 10px;
+            background: transparent;
+            border: none;
+            border-radius: 4px;
+            font-family: 'font-title';
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.4s;
+            user-select: none;
+        }
+
+        #valueMode {
+            display: block;
+        }
+
+        #ratioMode {
+            display: none;
+        }
+
+        #pieChartContainer,
+        #barChartContainer {
+            display: flex;
+            width: 100%;
+        }
+
+        #barChartBtns,
+        #barChartStaticBtns,
+        #prodBtns,
+        #distBtns {
+            display: flex;
+            flex-direction: column;
+            align-self: center;
+        }
+
+        #barChartBtns,
+        #prodBtns {
+            padding-left: 20px;
+        }
+
+        #barChartBtns {
+            gap: 36px;
+        }
+
+        #prodBtns {
+            gap: 30px;
+            padding-right: 40px;
+        }
+
+        #distBtns {
+            gap: 30px;
+        }
+
+        #barChartStaticBtns {
+            gap: 160px;
+        }
+
+        #modeToggle button:hover,
+        #modeToggle button.active {
+            background: #e22b30;
+            color: #fefefe;
+            box-shadow: 0 0 12px #e22b30;
+        }
+
+        #barChartBtns button:hover,
+        #barChartBtns button.active {
+            background: #6699ff;
+            color: #fefefe;
+            box-shadow: 0 0 12px #6699ff;
+        }
+
+        #distBtns button:hover,
+        #distBtns button.active {
+            background: #fec001;
+            color: #fefefe;
+            box-shadow: 0 0 12px #fec001;
+        }
+
+        #barChartStaticBtns button,
+        #distBtns button {
+            width: 40px;
+            height: 100px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #barChartStaticBtns button:hover,
+        #barChartStaticBtns button.active {
+            background: #fec001;
+            color: #fefefe;
+            box-shadow: 0 0 12px #fec001;
+        }
+
+        #barChart {
+            width: 1000px;
+            height: 600px;
+        }
+
+        #distChart {
+            width: 960px;
+            height: 600px;
+        }
+
+        #prodBtns button#pieBtnALL:hover,
+        #prodBtns button#pieBtnALL.active {
+            background: #ff74b8;
+            color: #fefefe;
+            box-shadow: 0 0 12px #ff74b8;
+        }
+
+        #prodBtns button#pieBtn765AS:hover,
+        #prodBtns button#pieBtn765AS.active {
+            background: #f34f6d;
+            color: #fefefe;
+            box-shadow: 0 0 12px #f34f6d;
+        }
+
+        #prodBtns button#pieBtnCG:hover,
+        #prodBtns button#pieBtnCG.active {
+            background: #2681c8;
+            color: #fefefe;
+            box-shadow: 0 0 12px #2681c8;
+        }
+
+        #prodBtns button#pieBtnML:hover,
+        #prodBtns button#pieBtnML.active {
+            background: #ffc30b;
+            color: #fefefe;
+            box-shadow: 0 0 12px #ffc30b;
+        }
+
+        #prodBtns button#pieBtnSideM:hover,
+        #prodBtns button#pieBtnSideM.active {
+            background: #0fbe94;
+            color: #fefefe;
+            box-shadow: 0 0 12px #0fbe94;
+        }
+
+        #prodBtns button#pieBtnSC:hover,
+        #prodBtns button#pieBtnSC.active {
+            background: #8dbbff;
+            color: #fefefe;
+            box-shadow: 0 0 12px #8dbbff;
+        }
+
+        #prodBtns button#pieBtnGK:hover,
+        #prodBtns button#pieBtnGK.active {
+            background: #f39800;
+            color: #fefefe;
+            box-shadow: 0 0 12px #f39800;
+        }
+
+        #prodBtns button#pieBtnOthers:hover,
+        #prodBtns button#pieBtnOthers.active {
+            background: #656a75;
+            color: #fefefe;
+            box-shadow: 0 0 12px #656a75;
         }
     </style>
 </head>
@@ -132,71 +297,190 @@
         <a id="legend7" class="legend-item" href="others.html"><span class="legend-color"
                 style="background:#656a75"></span>Others</a>
         <a id="legend8" class="legend-item" href="all.html"><span class="legend-color"
-                style="background:#ff74b8"></span>ALL（不包括SideM）</a>
+                style="background:#ff74b8"></span>ALL（不包含 SideM）</a>
     </div>
-    <div id="charts">
-        <div id="ageChart" class="chart"></div>
-        <div id="heightChart" class="chart"></div>
-        <div id="weightChart" class="chart"></div>
-        <div id="bustChart" class="chart"></div>
-        <div id="waistChart" class="chart"></div>
-        <div id="hipChart" class="chart"></div>
-        <div id="bmiChart" class="chart"></div>
-        <div id="sideM" class="chart"></div>
-        <div id="hometownChart" class="chart"></div>
-        <div id="handednessChart" class="chart"></div>
+
+    <div id="chartWrapper">
+        <div id="modeToggle">
+            <button id="btn-value" class="active">数值</button>
+            <button id="btn-ratio">占比</button>
+        </div>
+
+        <div id="valueMode">
+            <div id="barChartContainer">
+                <div id="barChartBtns">
+                    <button data-field="age" class="active">年龄</button>
+                    <button data-field="height">身高(cm)</button>
+                    <button data-field="weight">体重(kg)</button>
+                    <button data-field="bust">胸围(cm)</button>
+                    <button data-field="waist">腰围(cm)</button>
+                    <button data-field="hip">臀围(cm)</button>
+                    <button data-field="bmi">BMI</button>
+                </div>
+                <div id="barChart"></div>
+                <div id="barChartStaticBtns">
+                    <button id="btn-mean" class="active">平均值</button>
+                    <button id="btn-med">中值</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="ratioMode">
+            <div id="pieChartContainer">
+                <div id="prodBtns">
+                    <button data-prod="All" id="pieBtnALL" class="active">ALL</button>
+                    <button data-prod="THE IDOLM@STER" id="pieBtn765AS">765AS</button>
+                    <button data-prod="CINDERELLA GIRLS" id="pieBtnCG">CG</button>
+                    <button data-prod="MILLION LIVE!" id="pieBtnML">ML</button>
+                    <button data-prod="SideM" id="pieBtnSideM">SideM</button>
+                    <button data-prod="SHINY COLORS" id="pieBtnSC">SC</button>
+                    <button data-prod="Gakuen" id="pieBtnGK">GK</button>
+                    <button data-prod="Others" id="pieBtnOthers">Others</button>
+                </div>
+                <div id="distChart"></div>
+                <div id="distBtns">
+                    <button id="btn-age-dist" class="active">年龄</button>
+                    <button id="btn-height-dist">身高</button>
+                    <button id="btn-home-dist">出身地</button>
+                    <button id="btn-hand-dist">惯用手</button>
+                </div>
+            </div>
+        </div>
     </div>
+
     <script src="js/title.js"></script>
     <script src="js/echarts.min.js"></script>
     <script>
         fetch('data/c@st.min.json')
             .then(res => res.json())
             .then(data => {
-                const known = { "THE IDOLM@STER": "765AS", "CINDERELLA GIRLS": "CG", "MILLION LIVE!": "ML", "SideM": "SideM", "SHINY COLORS": "SC", "Gakuen": "GK" };
-                const colors = { "765AS": "#f34f6d", "CG": "#2681c8", "ML": "#ffc30b", "SideM": "#0fbe94", "SC": "#8dbbff", "GK": "#f39800", "Others": "#656a75", "All": "#ff74b8" };
+                const known = {
+                    "THE IDOLM@STER": "765AS",
+                    "CINDERELLA GIRLS": "CG",
+                    "MILLION LIVE!": "ML",
+                    "SideM": "SideM",
+                    "SHINY COLORS": "SC",
+                    "Gakuen": "GK"
+                };
+                const colors = {
+                    "765AS": "#f34f6d",
+                    "CG": "#2681c8",
+                    "ML": "#ffc30b",
+                    "SideM": "#0fbe94",
+                    "SC": "#8dbbff",
+                    "GK": "#f39800",
+                    "Others": "#656a75",
+                    "All": "#ff74b8"
+                };
                 const prods = Object.keys(known);
 
+                // ─────── 1. 初始化数据结构 ───────
                 let stats = {}, bmiStats = {}, hometownCounts = {}, handedCounts = {};
-                prods.forEach(p => { stats[p] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] }; bmiStats[p] = []; });
-                stats['Others'] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] }; bmiStats['Others'] = [];
+                prods.forEach(p => {
+                    stats[p] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] };
+                    bmiStats[p] = [];
+                    hometownCounts[p] = {};
+                    handedCounts[p] = {};
+                });
+                stats['Others'] = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] };
+                bmiStats['Others'] = [];
+                hometownCounts['Others'] = {};
+                handedCounts['Others'] = {};
+                // 用于“ALL（不含SideM）”
+                let allAgesWithoutSideM = [], allHeightsWithoutSideM = [];
 
-                data.forEach(prod => prod.staff.forEach(mem => {
-                    if (mem.type === "事务人员" || mem.group === "非可育成偶像") return;
-                    const key = prods.includes(prod.production) ? prod.production : 'Others';
-                    const s = stats[key];
-                    if (mem.age != null) s.ages.push(mem.age);
-                    if (mem.height != null) s.heights.push(mem.height);
-                    if (mem.weight != null) s.weights.push(mem.weight);
-                    if (Array.isArray(mem.three_sizes)) {
-                        const [b, w, h] = mem.three_sizes;
-                        if (b != null) s.busts.push(b);
-                        if (w != null) s.waists.push(w);
-                        if (h != null) s.hips.push(h);
-                    }
-                    if (typeof mem.height === 'number' && !isNaN(mem.height) && typeof mem.weight === 'number' && !isNaN(mem.weight)) {
-                        bmiStats[key].push(mem.weight / ((mem.height / 100) ** 2));
-                    }
-                    if (mem.hometown != null) hometownCounts[mem.hometown] = (hometownCounts[mem.hometown] || 0) + 1;
-                    if (mem.handedness != null) handedCounts[mem.handedness] = (handedCounts[mem.handedness] || 0) + 1;
-                }));
+                data.forEach(prod => {
+                    prod.staff.forEach(mem => {
+                        if (mem.type === "事务人员" || mem.group === "非可育成偶像") return;
+                        const key = prods.includes(prod.production) ? prod.production : 'Others';
+                        const s = stats[key];
 
-                const meanArr = arr => arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2) : 0;
-                let avg = {}, avgBmi = {};
-                Object.entries(stats).forEach(([k, s]) => {
-                    avg[k] = {
-                        age: meanArr(s.ages),
-                        height: meanArr(s.heights),
-                        weight: meanArr(s.weights),
-                        bust: meanArr(s.busts),
-                        waist: meanArr(s.waists),
-                        hip: meanArr(s.hips)
+                        if (mem.age != null) {
+                            s.ages.push(mem.age);
+                            if (key !== 'SideM') allAgesWithoutSideM.push(mem.age);
+                        }
+                        if (mem.height != null) {
+                            s.heights.push(mem.height);
+                            if (key !== 'SideM') allHeightsWithoutSideM.push(mem.height);
+                        }
+                        if (mem.weight != null) s.weights.push(mem.weight);
+                        if (Array.isArray(mem.three_sizes)) {
+                            const [b, w, h] = mem.three_sizes;
+                            if (b != null) s.busts.push(b);
+                            if (w != null) s.waists.push(w);
+                            if (h != null) s.hips.push(h);
+                        }
+                        if (typeof mem.height === 'number' && !isNaN(mem.height) && typeof mem.weight === 'number' && !isNaN(mem.weight)) {
+                            bmiStats[key].push(mem.weight / ((mem.height / 100) ** 2));
+                        }
+                        if (mem.hometown != null) {
+                            hometownCounts[key][mem.hometown] = (hometownCounts[key][mem.hometown] || 0) + 1;
+                        }
+                        if (mem.handedness != null) {
+                            handedCounts[key][mem.handedness] = (handedCounts[key][mem.handedness] || 0) + 1;
+                        }
+                    });
+                });
+
+                // ─────── 2. 辅助函数 ───────
+                function calcMean(arr) {
+                    if (!arr.length) return 0;
+                    return arr.reduce((a, b) => a + b, 0) / arr.length;
+                }
+                function calcMedian(arr) {
+                    if (!arr.length) return 0;
+                    const sorted = arr.slice().sort((a, b) => a - b);
+                    const mid = Math.floor(sorted.length / 2);
+                    return (sorted.length % 2 === 0)
+                        ? (sorted[mid - 1] + sorted[mid]) / 2
+                        : sorted[mid];
+                }
+                function calcStd(arr, mean) {
+                    if (!arr.length) return 0;
+                    const variance = arr.reduce((sum, v) => sum + (v - mean) ** 2, 0) / arr.length;
+                    return Math.sqrt(variance);
+                }
+
+                // ─────── 3. 计算每个 production 的 avg / median / std ───────
+                let avg = {}, medianData = {}, stdData = {};
+                Object.entries(stats).forEach(([key, s]) => {
+                    avg[key] = {
+                        age: calcMean(s.ages),
+                        height: calcMean(s.heights),
+                        weight: calcMean(s.weights),
+                        bust: calcMean(s.busts),
+                        waist: calcMean(s.waists),
+                        hip: calcMean(s.hips)
+                    };
+                    medianData[key] = {
+                        age: calcMedian(s.ages),
+                        height: calcMedian(s.heights),
+                        weight: calcMedian(s.weights),
+                        bust: calcMedian(s.busts),
+                        waist: calcMedian(s.waists),
+                        hip: calcMedian(s.hips)
+                    };
+                    stdData[key] = {
+                        age: calcStd(s.ages, avg[key].age),
+                        height: calcStd(s.heights, avg[key].height),
+                        weight: calcStd(s.weights, avg[key].weight),
+                        bust: calcStd(s.busts, avg[key].bust),
+                        waist: calcStd(s.waists, avg[key].waist),
+                        hip: calcStd(s.hips, avg[key].hip)
                     };
                 });
-                Object.entries(bmiStats).forEach(([k, arr]) => { avgBmi[k] = arr.length ? (arr.reduce((a, b) => a + b, 0) / arr.length).toFixed(2) : 0; });
+                Object.entries(bmiStats).forEach(([key, arr]) => {
+                    const m = calcMean(arr), md = calcMedian(arr), sd = calcStd(arr, m);
+                    avg[key].bmi = m;
+                    medianData[key].bmi = md;
+                    stdData[key].bmi = sd;
+                });
 
-                const allKeys = ['Others', ...prods.filter(p => 'SideM' !== p)];
+                // ─────── 4. “ALL” 合并 ───────
+                const allKeysForBar = ['Others', ...prods.filter(p => p !== 'SideM')];
+                const allKeysForPie = ['Others', ...prods];
                 let combined = { ages: [], heights: [], weights: [], busts: [], waists: [], hips: [] };
-                allKeys.forEach(k => {
+                allKeysForBar.forEach(k => {
                     combined.ages = combined.ages.concat(stats[k].ages);
                     combined.heights = combined.heights.concat(stats[k].heights);
                     combined.weights = combined.weights.concat(stats[k].weights);
@@ -204,127 +488,484 @@
                     combined.waists = combined.waists.concat(stats[k].waists);
                     combined.hips = combined.hips.concat(stats[k].hips);
                 });
-                avg['All'] = {
-                    age: meanArr(combined.ages),
-                    height: meanArr(combined.heights),
-                    weight: meanArr(combined.weights),
-                    bust: meanArr(combined.busts),
-                    waist: meanArr(combined.waists),
-                    hip: meanArr(combined.hips)
+                const meanAll = {
+                    age: calcMean(combined.ages),
+                    height: calcMean(combined.heights),
+                    weight: calcMean(combined.weights),
+                    bust: calcMean(combined.busts),
+                    waist: calcMean(combined.waists),
+                    hip: calcMean(combined.hips)
                 };
-                let allBmiArr = allKeys.flatMap(k => bmiStats[k]);
-                avgBmi['All'] = allBmiArr.length ? (allBmiArr.reduce((a, b) => a + b, 0) / allBmiArr.length).toFixed(2) : 0;
+                const medianAll = {
+                    age: calcMedian(combined.ages),
+                    height: calcMedian(combined.heights),
+                    weight: calcMedian(combined.weights),
+                    bust: calcMedian(combined.busts),
+                    waist: calcMedian(combined.waists),
+                    hip: calcMedian(combined.hips)
+                };
+                const stdAll = {
+                    age: calcStd(combined.ages, meanAll.age),
+                    height: calcStd(combined.heights, meanAll.height),
+                    weight: calcStd(combined.weights, meanAll.weight),
+                    bust: calcStd(combined.busts, meanAll.bust),
+                    waist: calcStd(combined.waists, meanAll.waist),
+                    hip: calcStd(combined.hips, meanAll.hip)
+                };
+                const allBmiArr = allKeysForBar.flatMap(k => bmiStats[k]);
+                const mAllBmi = calcMean(allBmiArr), mdAllBmi = calcMedian(allBmiArr), sdAllBmi = calcStd(allBmiArr, mAllBmi);
+                meanAll.bmi = mAllBmi;
+                medianAll.bmi = mdAllBmi;
+                stdAll.bmi = sdAllBmi;
 
-                const plotCats = [...prods.filter(p => 'SideM' !== p), 'Others', 'All'];
+                avg['All'] = meanAll;
+                medianData['All'] = medianAll;
+                stdData['All'] = stdAll;
+
+                // ─────── 5. 柱状图相关 ───────
+                const plotCats = [...prods.filter(p => p !== 'SideM'), 'Others', 'All'];
                 const plotCatsBmi = [...prods, 'Others', 'All'];
                 const labels = plotCats.map(p => known[p] || p);
                 const labelsBmi = plotCatsBmi.map(p => known[p] || p);
-                const fileMap = { '765AS': '765as', 'CG': 'cg', 'ML': 'ml', 'SC': 'sc', 'GK': 'gk', 'Others': 'others', 'All': 'all', 'SideM': 'sidem' };
+                const fileMap = {
+                    '765AS': '765as',
+                    'CG': 'cg',
+                    'ML': 'ml',
+                    'SC': 'sc',
+                    'GK': 'gk',
+                    'Others': 'others',
+                    'All': 'all',
+                    'SideM': 'sidem'
+                };
 
-                function drawBarMetric(id, title, field, min) {
-                    const chart = echarts.init(document.getElementById(id));
+                const barFields = [
+                    { field: 'age', title: '年龄', min: 14, useBmiCats: false },
+                    { field: 'height', title: '身高(cm)', min: 155, useBmiCats: false },
+                    { field: 'weight', title: '体重(kg)', min: 40, useBmiCats: false },
+                    { field: 'bust', title: '胸围(cm)', min: 79, useBmiCats: false },
+                    { field: 'waist', title: '腰围(cm)', min: 53, useBmiCats: false },
+                    { field: 'hip', title: '臀围(cm)', min: 78, useBmiCats: false },
+                    { field: 'bmi', title: 'BMI', min: 16, useBmiCats: true }
+                ];
+
+                let currentModeValue = 'mean';
+                let currentFieldIdx = 0;
+
+                function drawBarChart(field, title, min, useBmiCats) {
+                    const chart = echarts.init(document.getElementById('barChart'));
+                    const cats = useBmiCats ? plotCatsBmi : plotCats;
+                    const xLabels = useBmiCats ? labelsBmi : labels;
+                    const sourceData = currentModeValue === 'mean' ? avg : medianData;
+
                     chart.setOption({
                         title: { text: title, left: 'center', top: 20 },
                         textStyle: { fontFamily: 'font-title' },
-                        grid: { top: 80, containLabel: true },
-                        tooltip: { trigger: 'item', formatter: params => `${title}<br/>${params.marker}${params.name} ${params.value.toFixed(2)}` },
-                        xAxis: { show: false, data: labels },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => {
+                                const categoryKey = cats[params.dataIndex];
+                                const sigma = stdData[categoryKey][field] || 0;
+                                const modeName = currentModeValue === 'mean' ? 'μ' : 'Med';
+                                return `${params.name}<br/>${params.marker}${modeName} = ${params.value.toFixed(2)}<br/>${params.marker}σ = ${sigma.toFixed(2)}`;
+                            }
+                        },
+                        xAxis: { show: false, data: xLabels },
                         yAxis: { type: 'value', min },
                         series: [{
                             type: 'bar',
-                            data: plotCats.map(p => ({ value: +avg[p][field], itemStyle: { color: colors[p in known ? known[p] : p] } })),
+                            data: cats.map(p => ({
+                                name: known[p] || p,
+                                value: +(sourceData[p][field] || 0),
+                                itemStyle: { color: colors[p in known ? known[p] : p] }
+                            })),
                             barWidth: '50%',
-                            label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
-                        }]
+                            label: {
+                                show: true,
+                                position: 'top',
+                                fontWeight: 'bold',
+                                formatter: params => params.value.toFixed(2)
+                            }
+                        }],
                     });
-                    chart.on('click', e => window.location.href = fileMap[e.name] + '.html');
+                    chart.on('click', e => {
+                        window.location.href = fileMap[e.name] + '.html';
+                    });
                 }
 
-                function drawBarData(id, title, dataMap, min) {
-                    const chart = echarts.init(document.getElementById(id));
-                    chart.setOption({
-                        title: { text: title, left: 'center', top: 20 },
-                        textStyle: { fontFamily: 'font-title' },
-                        grid: { top: 80, containLabel: true },
-                        tooltip: { trigger: 'item', formatter: params => `${title}<br />${params.marker}${params.name} ${params.value.toFixed(2)}` },
-                        xAxis: { show: false, data: labelsBmi },
-                        yAxis: { type: 'value', min },
+                // 年龄~BMI 切换
+                const barBtns = document.querySelectorAll('#barChartBtns button');
+                function updateBar(idx) {
+                    currentFieldIdx = idx;
+                    barBtns.forEach((b, i) => {
+                        b.classList.toggle('active', i === idx);
+                    });
+                    const { field, title, min, useBmiCats } = barFields[idx];
+                    drawBarChart(field, title, min, useBmiCats);
+                }
+                barBtns.forEach((btn, idx) => {
+                    btn.addEventListener('click', () => updateBar(idx));
+                });
+
+                // 平均值/中值 切换
+                const btnMean = document.getElementById('btn-mean');
+                const btnMedian = document.getElementById('btn-med');
+                btnMean.addEventListener('click', () => {
+                    currentModeValue = 'mean';
+                    btnMean.classList.add('active');
+                    btnMedian.classList.remove('active');
+                    updateBar(currentFieldIdx);
+                });
+                btnMedian.addEventListener('click', () => {
+                    currentModeValue = 'median';
+                    btnMedian.classList.add('active');
+                    btnMean.classList.remove('active');
+                    updateBar(currentFieldIdx);
+                });
+                // 默认：年龄 + 平均值
+                updateBar(0);
+
+                // ─────── 6. 饼图（占比）计算 ───────
+                function computeDistribution(prodKeys, distType) {
+                    const result = [];
+                    // 如果包含 'All'，直接将 prodKeys 设为 allKeys
+                    if (prodKeys.includes('All')) {
+                        prodKeys = [...allKeysForPie];
+                    }
+
+                    if (distType === 'home') {
+                        // 合并选中 production 的 hometownCounts
+                        const combinedHome = {};
+                        prodKeys.forEach(key => {
+                            Object.entries(hometownCounts[key] || {}).forEach(([loc, cnt]) => {
+                                combinedHome[loc] = (combinedHome[loc] || 0) + cnt;
+                            });
+                        });
+                        Object.entries(combinedHome).forEach(([loc, cnt]) => {
+                            if (cnt > 0) result.push({ name: loc, value: cnt });
+                        });
+                        result.sort((a, b) => b.value - a.value);
+                        return result;
+                    }
+                    if (distType === 'hand') {
+                        // 合并选中 production 的 handedCounts
+                        const combinedHand = {};
+                        prodKeys.forEach(key => {
+                            Object.entries(handedCounts[key] || {}).forEach(([hand, cnt]) => {
+                                combinedHand[hand] = (combinedHand[hand] || 0) + cnt;
+                            });
+                        });
+                        Object.entries(combinedHand).forEach(([hand, cnt]) => {
+                            if (cnt > 0) result.push({ name: hand, value: cnt });
+                        });
+                        return result;
+                    }
+                    // 年龄/身高
+                    let allValues = [];
+                    if (distType === 'age') {
+                        prodKeys.forEach(key => {
+                            if (key === 'All') return; // 已处理 above
+                            allValues = allValues.concat(stats[key]?.ages || []);
+                        });
+                        const buckets = { '≤12岁': 0, '13-15岁': 0, '16-18岁': 0, '19-22岁': 0, '≥23岁': 0 };
+                        allValues.forEach(age => {
+                            if (age <= 12) buckets['≤12岁']++;
+                            else if (age <= 15) buckets['13-15岁']++;
+                            else if (age <= 18) buckets['16-18岁']++;
+                            else if (age <= 22) buckets['19-22岁']++;
+                            else buckets['≥23岁']++;
+                        });
+                        Object.entries(buckets).forEach(([name, value]) => {
+                            if (value > 0) result.push({ name, value });
+                        });
+                        return result;
+                    }
+                    if (distType === 'height') {
+                        prodKeys.forEach(key => {
+                            if (key === 'All') return;
+                            allValues = allValues.concat(stats[key]?.heights || []);
+                        });
+                        const buckets = { '≤149cm': 0, '150-156cm': 0, '157-162cm': 0, '163-169cm': 0, '≥170cm': 0 };
+                        allValues.forEach(h => {
+                            if (h <= 149) buckets['≤149cm']++;
+                            else if (h <= 156) buckets['150-156cm']++;
+                            else if (h <= 162) buckets['157-162cm']++;
+                            else if (h <= 169) buckets['163-169cm']++;
+                            else buckets['≥170cm']++;
+                        });
+                        Object.entries(buckets).forEach(([name, value]) => {
+                            if (value > 0) result.push({ name, value });
+                        });
+                        return result;
+                    }
+                    return [];
+                }
+
+                const distChart = echarts.init(document.getElementById('distChart'));
+
+                function getAgeOption(prodKeys) {
+                    const ageData = computeDistribution(prodKeys, 'age');
+                    return {
+                        title: { text: '年龄分布', left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'vertical',
+                            left: 10,
+                            top: 20,
+                            bottom: 20,
+                            data: ageData.map(d => d.name)
+                        },
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}（{d}%）'
+                        },
                         series: [{
-                            type: 'bar',
-                            data: plotCatsBmi.map(p => ({ value: +dataMap[p], itemStyle: { color: colors[p in known ? known[p] : p] } })),
-                            barWidth: '50%',
-                            label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
+                            type: 'pie',
+                            radius: '50%',
+                            data: ageData,
+                            selectedMode: 'multiple',
+                            selectedOffset: 30,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0,0,0,0.5)'
+                                }
+                            }
                         }]
-                    });
-                    chart.on('click', e => window.location.href = fileMap[e.name] + '.html');
+                    };
                 }
 
-                drawBarMetric('ageChart', '平均年龄', 'age', 15);
-                drawBarMetric('heightChart', '平均身高(cm)', 'height', 155);
-                drawBarMetric('weightChart', '平均体重(kg)', 'weight', 40);
-                drawBarMetric('bustChart', '平均胸围(cm)', 'bust', 79);
-                drawBarMetric('waistChart', '平均腰围(cm)', 'waist', 53);
-                drawBarMetric('hipChart', '平均臀围(cm)', 'hip', 78);
-                drawBarData('bmiChart', '平均 BMI', avgBmi, 16);
+                function getHeightOption(prodKey) {
+                    const heightData = computeDistribution(prodKey, 'height');
+                    return {
+                        title: { text: '身高分布', left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'vertical',
+                            left: 10,
+                            top: 20,
+                            bottom: 20,
+                            data: heightData.map(d => d.name)
+                        },
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}（{d}%）'
+                        },
 
-                const radar = echarts.init(document.getElementById('sideM'));
-                const s = avg['SideM'], ss = stats['SideM'];
-                radar.setOption({
-                    title: { text: 'SideM', left: 'center', top: 20 },
-                    textStyle: {
-                        fontFamily: 'font-title', fontSize: 14
-                    },
-                    tooltip: {},
-                    radar: {
-                        indicator: [
-                            { name: '年龄', min: Math.min(...ss.ages), max: Math.max(...ss.ages) - 10 },
-                            { name: '身高(cm)', min: Math.min(...ss.heights), max: Math.max(...ss.heights) - 10 },
-                            { name: '体重(kg)', min: Math.min(...ss.weights), max: Math.max(...ss.weights) - 10 }
-                        ],
-                        axisName: { color: '#333' },
-                        center: ['50%', '55%'], radius: '60%'
-                    },
-                    series: [{
-                        type: 'radar',
-                        data: [{ value: [s.age, s.height, s.weight], name: 'SideM', areaStyle: { opacity: 0.3 } }],
-                        label: { show: true, formatter: '{c}', fontWeight: 'bold' },
-                        itemStyle: { color: colors['SideM'] }
-                    }]
+                        series: [{
+                            type: 'pie',
+                            radius: '50%',
+                            data: heightData,
+                            selectedMode: 'multiple',
+                            selectedOffset: 30,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0,0,0,0.5)'
+                                }
+                            }
+                        }]
+                    };
+                }
+
+                function getHomeOption(prodKey) {
+                    const homeData = computeDistribution(prodKey, 'home');
+                    return {
+                        title: { text: '出身地分布', left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'vertical',
+                            left: 10,
+                            top: 20,
+                            bottom: 20,
+                            data: homeData.map(d => d.name)
+                        },
+                        series: [{
+                            type: 'pie',
+                            radius: ['50%', '70%'],
+                            data: homeData,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0,0,0,0.5)'
+                                }
+                            }
+                        }]
+                    };
+                }
+
+                function getHandOption(prodKey) {
+                    const handData = computeDistribution(prodKey, 'hand');
+                    return {
+                        title: { text: '惯用手分布', left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            top: 16,
+                            left: 10,
+                            data: handData.map(d => d.name)
+                        },
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}（{d}%）'
+                        },
+                        series: [{
+                            type: 'pie',
+                            radius: '50%',
+                            data: handData,
+                            selectedMode: 'multiple',
+                            selectedOffset: 30,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0,0,0,0.5)'
+                                }
+                            }
+                        }]
+                    };
+                }
+
+                // ─────── 7. 占比模式按钮逻辑 ───────
+                let currentProds = ['All'];
+                let currentDist = 'age';
+
+                const prodBtns = document.querySelectorAll('#prodBtns button');
+                const allButton = Array.from(prodBtns).find(b => b.getAttribute('data-prod') === 'All');
+                const nonAllButtons = Array.from(prodBtns).filter(b => b.getAttribute('data-prod') !== 'All');
+
+                prodBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const key = btn.getAttribute('data-prod');
+                        if (key === 'All') {
+                            // 如果点击 ALL，那么取消其余按钮，并仅保留 ALL
+                            prodBtns.forEach(b => b.classList.remove('active'));
+                            allButton.classList.add('active');
+                            currentProds = ['All'];
+                        } else {
+                            // 切换当前按钮的 active 状态
+                            const isActive = btn.classList.toggle('active');
+                            // 如果之前 ALL 是选中的，则取消 ALL
+                            if (allButton.classList.contains('active')) {
+                                allButton.classList.remove('active');
+                                currentProds = [];
+                            }
+                            // 更新 currentProds 列表
+                            if (isActive) {
+                                currentProds.push(key);
+                            } else {
+                                currentProds = currentProds.filter(k => k !== key);
+                            }
+                            if (currentProds.length === 0) {
+                                prodBtns.forEach(b => b.classList.remove('active'));
+                                allButton.classList.add('active');
+                                currentProds = ['All'];
+                            }
+                            // 如果所有非ALL 按钮都已选中，则改为只选中 ALL
+                            const allNonAllSelected = nonAllButtons.every(b => b.classList.contains('active'));
+                            if (allNonAllSelected) {
+                                nonAllButtons.forEach(b => b.classList.remove('active'));
+                                allButton.classList.add('active');
+                                currentProds = ['All'];
+                            }
+                        }
+                        renderDistChart();
+                    });
                 });
-                radar.on('click', () => window.location.href = fileMap['SideM'] + '.html');
 
-                let homeData = Object.entries(hometownCounts).map(([n, v]) => ({ name: n, value: v }));
-                homeData.sort((a, b) => b.value - a.value);
-                const homeChart = echarts.init(document.getElementById('hometownChart'));
-                homeChart.setOption({
-                    title: { text: '出身地分布', left: 'center', top: 20 },
-                    textStyle: {
-                        fontFamily: 'font-title',
-                        fontSize: 14
-                    },
-                    tooltip: { trigger: 'item', formatter: params => `${params.name}<br/>${params.marker} ${params.value}人<br/>${params.marker} ${params.percent}%` },
-                    legend: { type: 'scroll', orient: 'vertical', left: 10, top: 20, bottom: 20, data: homeData.map(d => d.name) },
-                    series: [{ type: 'pie', radius: '50%', data: homeData, emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)' } } }]
+                const distBtns = document.querySelectorAll('#distBtns button');
+                function clearDistActive() {
+                    distBtns.forEach(b => b.classList.remove('active'));
+                }
+                function renderDistChart() {
+                    let option;
+                    switch (currentDist) {
+                        case 'age':
+                            option = getAgeOption(currentProds);
+                            break;
+                        case 'height':
+                            option = getHeightOption(currentProds);
+                            break;
+                        case 'home':
+                            option = getHomeOption(currentProds);
+                            break;
+                        case 'hand':
+                            option = getHandOption(currentProds);
+                            break;
+                    }
+                    distChart.setOption(option, true);
+                }
+
+                document.getElementById('btn-age-dist').addEventListener('click', () => {
+                    clearDistActive();
+                    document.getElementById('btn-age-dist').classList.add('active');
+                    currentDist = 'age';
+                    renderDistChart();
+                });
+                document.getElementById('btn-height-dist').addEventListener('click', () => {
+                    clearDistActive();
+                    document.getElementById('btn-height-dist').classList.add('active');
+                    currentDist = 'height';
+                    renderDistChart();
+                });
+                document.getElementById('btn-home-dist').addEventListener('click', () => {
+                    clearDistActive();
+                    document.getElementById('btn-home-dist').classList.add('active');
+                    currentDist = 'home';
+                    renderDistChart();
+                });
+                document.getElementById('btn-hand-dist').addEventListener('click', () => {
+                    clearDistActive();
+                    document.getElementById('btn-hand-dist').classList.add('active');
+                    currentDist = 'hand';
+                    renderDistChart();
                 });
 
-                let handData = Object.entries(handedCounts).map(([n, v]) => ({ name: n, value: v }));
-                const handChart = echarts.init(document.getElementById('handednessChart'));
-                handChart.setOption({
-                    title: { text: '惯用手分布', left: 'center', top: 20 },
-                    textStyle: {
-                        fontFamily: 'font-title',
-                        fontSize: 16
-                    },
-                    tooltip: { trigger: 'item', formatter: params => `${params.name}<br/>${params.marker} ${params.value}人<br/>${params.marker} ${params.percent}%` },
-                    legend: { orient: 'vertical', top: 16, left: 10, data: handData.map(d => d.name) },
-                    series: [{
-                        type: 'pie',
-                        radius: '50%',
-                        data: handData,
-                        emphasis: { itemStyle: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0,0,0,0.5)' } }
-                    }]
-                });
+                // 初始化：默认“年龄分布”
+                renderDistChart();
 
+                // ─────── 8. 模式切换 ───────
+                const btnValueMode = document.getElementById('btn-value');
+                const btnRatioMode = document.getElementById('btn-ratio');
+                const valueModeDiv = document.getElementById('valueMode');
+                const ratioModeDiv = document.getElementById('ratioMode');
+
+                btnValueMode.addEventListener('click', () => {
+                    btnValueMode.classList.add('active');
+                    btnRatioMode.classList.remove('active');
+                    valueModeDiv.style.display = 'block';
+                    ratioModeDiv.style.display = 'none';
+                });
+                btnRatioMode.addEventListener('click', () => {
+                    btnRatioMode.classList.add('active');
+                    btnValueMode.classList.remove('active');
+                    valueModeDiv.style.display = 'none';
+                    ratioModeDiv.style.display = 'block';
+                });
             });
     </script>
 </body>

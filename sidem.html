@@ -9,11 +9,6 @@
     <link rel="stylesheet" href="css/bg.css">
     <link rel="stylesheet" href="css/page2.css">
     <style>
-        #radarChart {
-            width: 398px;
-            margin: auto;
-        }
-
         h1 #title {
             color: #0fbe94;
             text-shadow: #0fbe94 0 0 15px;
@@ -22,108 +17,301 @@
         h1 #title::after {
             background: linear-gradient(90deg, transparent, #0fbe94, transparent);
         }
+
+        #barChartBtns {
+            gap: 60px;
+        }
+
+        #distBtns {
+            gap: 48px;
+        }
+
+        #imasRed:hover,
+        #imasRed.active {
+            background-color: #EB313A;
+            color: #fefefe;
+            box-shadow: 0 0 12px #EB313A;
+        }
+
+        #imasBlue:hover,
+        #imasBlue.active {
+            background-color: #2EBAE5;
+            color: #fefefe;
+            box-shadow: 0 0 12px #2EBAE5;
+        }
+
+        #imasYellow:hover,
+        #imasYellow.active {
+            background-color: #E7C224;
+            color: #fefefe;
+            box-shadow: 0 0 12px #E7C224;
+        }
     </style>
 </head>
 
 <body>
     <img src="assets/img/sidmbg.webp" alt="" id="bg" />
     <h1> <button id="title">315 ALLSTARS</button></h1>
-    <div id="charts">
-        <!-- 雷达图独占一行 -->
-        <div id="radarChart" class="chart" style="grid-column: 1 / -1;"></div>
-        <!-- 四个柱状图 同行四列 -->
-        <div id="barAge" class="chart"></div>
-        <div id="barHeight" class="chart"></div>
-        <div id="barWeight" class="chart"></div>
-        <div id="barBMI" class="chart"></div>
-    </div>
 
-    <!-- 图例 -->
     <div class="legend">
         <span class="legend-item"><span class="legend-color" style="background:#EB313A"></span>Physical</span>
         <span class="legend-item"><span class="legend-color" style="background:#2EBAE5"></span>Intelli</span>
         <span class="legend-item"><span class="legend-color" style="background:#E7C224"></span>Mental</span>
     </div>
 
+    <div id="chartWrapper">
+        <!-- 模式切换 -->
+        <div id="modeToggle">
+            <button id="btn-radar" class="active">总体</button>
+            <button id="btn-value">数值</button>
+            <button id="btn-ratio">占比</button>
+        </div>
+
+        <!-- 雷达图 -->
+        <div id="radarMode">
+            <div id="radarChart"></div>
+        </div>
+
+        <!-- 数值模式 -->
+        <div id="valueMode">
+            <div id="barChartContainer">
+                <div id="barChartBtns">
+                    <button data-field="age" class="active">年龄</button>
+                    <button data-field="height">身高(cm)</button>
+                    <button data-field="weight">体重(kg)</button>
+                    <button data-field="bmi">BMI</button>
+                </div>
+                <div id="barChart"></div>
+                <div id="barChartStaticBtns">
+                    <button id="btn-mean" class="active">平均值</button>
+                    <button id="btn-med">中值</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 占比模式 -->
+        <div id="ratioMode">
+            <div id="pieChartContainer">
+                <div id="prodBtns">
+                    <button data-type="Physical" id="imasRed"
+                        class="active"><span>P</span><span>h</span><span>y</span><span>s</span><span>i</span><span>c</span><span>a</span><span>l</span></button>
+                    <button data-type="Intelli"
+                        id="imasBlue"><span>I</span><span>n</span><span>t</span><span>e</span><span>l</span><span>l</span><span>i</span></button>
+                    <button data-type="Mental"
+                        id="imasYellow"><span>M</span><span>e</span><span>n</span><span>t</span><span>a</span><span>l</span></button>
+                </div>
+                <div id="distChart"></div>
+                <div id="distBtns">
+                    <button data-dist="age" class="active">年龄</button>
+                    <button data-dist="height">身高</button>
+                    <button data-dist="hand">惯用手</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="js/title.js"></script>
     <script src="js/echarts.min.js"></script>
     <script>
-        fetch('data/c@st.min.json').then(res => res.json()).then(data => {
-            const staff = data.find(p => p.production === 'SideM')?.staff || [];
-            const valid = staff.filter(m => m.type !== '事务人员' && m.group !== '非可育成偶像');
-            const mean = arr => arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0;
+        fetch('data/c@st.min.json')
+            .then(res => res.json())
+            .then(data => {
+                const prodKey = 'SideM';
+                const all = data.flatMap(p => p.staff.map(m => ({ ...m, production: p.production })));
+                const arr = all.filter(m => m.production === prodKey && m.type !== '事务人员' && m.group !== '非可育成偶像');
 
-            // 雷达数据
-            const vals = {
-                age: mean(valid.map(m => m.age).filter(v => v != null)),
-                height: mean(valid.map(m => m.height).filter(v => v != null)),
-                weight: mean(valid.map(m => m.weight).filter(v => v != null))
-            };
-            // 渲染雷达图
-            const radar = echarts.init(document.getElementById('radarChart'));
-            radar.setOption({
-                title: { text: '平均属性', left: 'center', top: 15 },
-                textStyle: {
-                    fontFamily: 'font-title', fontSize: 14
-                },
-                tooltip: { trigger: 'item' },
-                radar: {
-                    shape: 'polygon', splitNumber: 5, center: ['50%', '60%'],
-                    indicator: [
-                        { name: '年龄', min: Math.min(...valid.map(m => m.age)), max: Math.max(...valid.map(m => m.age)) - 10 },
-                        { name: '身高(cm)', min: Math.min(...valid.map(m => m.height)), max: Math.max(...valid.map(m => m.height)) - 10 },
-                        { name: '体重(kg)', min: Math.min(...valid.map(m => m.weight)), max: Math.max(...valid.map(m => m.weight)) - 10 }
-                    ],
-                    axisName: { color: '#333' }
-                },
-                series: [{
-                    name: 'SideM',
-                    type: 'radar',
-                    data: [{
-                        value: [+vals.age.toFixed(2), +vals.height.toFixed(2), +vals.weight.toFixed(2)],
-                        name: '315 ALLSTARS',
-                        itemStyle: { color: '#0fbe94' }, areaStyle: { color: '#0fbe94', opacity: 0.3 },
-                        label: { show: true, formatter: ({ value }) => value.toFixed(2), fontWeight: 'bold' }
-                    }]
-                }]
-            });
-
-            // 按 type 分组计算并渲染柱状图，设置起点和悬浮格式
-            const types = ['Physical', 'Intelli', 'Mental'];
-            const colors = { Physical: '#EB313A', Intelli: '#2EBAE5', Mental: '#E7C224' };
-            const barData = types.map(t => {
-                const arr = valid.filter(m => m.type === t);
-                return {
-                    age: mean(arr.map(m => m.age).filter(v => v != null)),
-                    height: mean(arr.map(m => m.height).filter(v => v != null)),
-                    weight: mean(arr.map(m => m.weight).filter(v => v != null)),
-                    bmi: mean(arr.map(m => m.height && m.weight ? m.weight / ((m.height / 100) ** 2) : null).filter(v => v != null))
+                // 辅助函数
+                const mean = a => a.length ? a.reduce((x, y) => x + y) / a.length : 0;
+                const median = a => {
+                    if (!a.length) return 0;
+                    const s = a.slice().sort((x, y) => x - y);
+                    const mid = Math.floor(s.length / 2);
+                    return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
                 };
-            });
-            const metrics = [
-                { id: 'barAge', key: 'age', title: '平均年龄', min: 18 },
-                { id: 'barHeight', key: 'height', title: '平均身高(cm)', min: 165 },
-                { id: 'barWeight', key: 'weight', title: '平均体重(kg)', min: 55 },
-                { id: 'barBMI', key: 'bmi', title: '平均BMI', min: 18 }
-            ];
-            metrics.forEach(met => {
-                const chart = echarts.init(document.getElementById(met.id));
-                chart.setOption({
-                    title: { text: met.title, left: 'center', top: 20 },
-                    textStyle: { fontFamily: 'font-title' },
-                    grid: { top: 80, containLabel: true },
-                    tooltip: { trigger: 'item', formatter: params => `${params.seriesName}<br />${params.marker}${params.name} ${params.value.toFixed(2)}` },
-                    xAxis: { show: false, data: types },
-                    yAxis: { type: 'value', min: met.min },
+                const std = (a, mu) => a.length ? Math.sqrt(a.reduce((s, v) => s + (v - mu) ** 2, 0) / a.length) : 0;
+
+                const dims = ['age', 'height', 'weight'];
+                // 绘制雷达图
+                const avgAll = dims.map(k => {
+                    const vals = arr.map(m => m[k]).filter(v => v != null);
+                    return mean(vals);
+                });
+                avgAll.forEach((v, i) => {
+                    avgAll[i] = v.toFixed(2);
+                });
+                const radarChart = echarts.init(document.getElementById('radarChart'));
+                radarChart.setOption({
+                    title: { text: '平均属性', left: 'center', top: 15 },
+                    textStyle: {
+                        fontFamily: 'font-title', fontSize: 14
+                    },
+                    tooltip: {},
+                    radar: {
+                        shape: 'polygon', splitNumber: 5, center: ['50%', '55%'],
+                        indicator: [
+                            { name: '年龄', min: 15, max: 21 },
+                            { name: '身高(cm)', min: 155, max: 175 },
+                            { name: '体重(kg)', min: 40, max: 60 },
+                        ],
+                        axisName: { color: '#333' }
+                    },
                     series: [{
-                        name: met.title,
-                        type: 'bar', barWidth: '50%',
-                        data: types.map((t, i) => ({ value: barData[i][met.key], itemStyle: { color: colors[t] } })),
-                        label: { show: true, position: 'top', fontWeight: 'bold', formatter: params => params.value.toFixed(2) }
+                        name: '315 ALLSTARS', type: 'radar', data: [{
+                            value: avgAll, areaStyle: { color: '#0fbe94', opacity: 0.3 }, itemStyle: { color: '#0fbe94' }, lineStyle: { color: '#0fbe94' }, label: {
+                                show: true,
+                                fontWeight: 'bold'
+                            }
+                        }]
                     }]
                 });
+
+                // 计算各 type 统计
+                const types = ['Physical', 'Intelli', 'Mental'];
+                const colors = { Physical: '#EB313A', Intelli: '#2EBAE5', Mental: '#E7C224' };
+                const typeStats = types.map(t => {
+                    const sub = arr.filter(m => m.type === t);
+                    const o = {};
+                    dims.concat('bmi').forEach(k => {
+                        let vals;
+                        if (k === 'bmi') vals = sub.map(m => m.height && m.weight ? m.weight / ((m.height / 100) ** 2) : null);
+                        else vals = sub.map(m => m[k]);
+                        vals = vals.filter(v => v != null);
+                        o[k] = mean(vals);
+                        o[`${k}_median`] = median(vals);
+                        o[`${k}_std`] = std(vals, o[k]);
+                    });
+                    return o;
+                });
+
+                // 绘制柱状图
+                const barChart = echarts.init(document.getElementById('barChart'));
+                let field = 'age', mode = 'mean';
+                const known = { 'age': '年龄', 'height': '身高(cm)', 'weight': '体重(kg)', 'bmi': 'BMI' };
+                const mins = { 'age': 15, 'height': 150, 'weight': 40, 'bmi': 15 };
+                function drawBar() {
+                    const values = types.map((t, i) => mode === 'mean' ? typeStats[i][field] : typeStats[i][`${field}_median`]);
+                    barChart.setOption({
+                        title: { text: known[field], left: 'center', top: 10 },
+                        textStyle: { fontFamily: 'font-title' },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => {
+                                const idx = params.dataIndex;
+                                const val = mode === 'mean' ? typeStats[idx][field] : typeStats[idx][`${field}_median`];
+                                const sigma = typeStats[idx][`${field}_std`];
+                                const modeLabel = mode === 'mean' ? 'μ' : 'Med';
+                                return `${params.name}<br/>${params.marker}${modeLabel} = ${val.toFixed(2)}<br/>${params.marker}σ = ${sigma.toFixed(2)}`;
+                            }
+                        },
+                        xAxis: { show: false, data: types },
+                        yAxis: { type: 'value', min: mins[field] },
+                        series: [{
+                            type: 'bar',
+                            data: values.map((v, i) => ({ value: v.toFixed(2), itemStyle: { color: colors[types[i]] } })),
+                            barWidth: '50%',
+                            label: { show: true, position: 'top', formatter: '{c}', fontWeight: 'bold' }
+                        }]
+                    });
+                }
+                document.querySelectorAll('#valueMode [data-field]').forEach(b => {
+                    b.addEventListener('click', () => {
+                        document.querySelectorAll('#valueMode [data-field]').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        field = b.getAttribute('data-field');
+                        drawBar();
+                    });
+                });
+                const btnMean = document.getElementById('btn-mean');
+                const btnMed = document.getElementById('btn-med');
+                btnMean.addEventListener('click', () => { mode = 'mean'; btnMed.classList.remove('active'); btnMean.classList.add('active'); drawBar(); });
+                btnMed.addEventListener('click', () => { mode = 'median'; btnMean.classList.remove('active'); btnMed.classList.add('active'); drawBar(); });
+
+                // 绘制饼图
+                const pieChart = echarts.init(document.getElementById('distChart'));
+                let selType = 'Physical', dist = 'age';
+                const distBuckets = {
+                    age: [['≤12岁', a => a <= 12], ['13-15岁', a => a <= 15], ['16-18岁', a => a <= 18], ['19-22岁', a => a <= 22], ['≥23岁', a => a >= 23]],
+                    height: [['≤149cm', h => h <= 149], ['150-156cm', h => h <= 156], ['157-162cm', h => h <= 162], ['163-169cm', h => h <= 169], ['≥170cm', h => h >= 170]]
+                };
+                function drawPie() {
+                    const subset = arr.filter(m => m.type === selType);
+                    let data = [];
+                    if (dist !== 'hand') {
+                        const buckets = distBuckets[dist];
+                        const counts = buckets.map(_ => 0);
+                        subset.forEach(m => {
+                            const v = m[dist];
+                            buckets.forEach(([, fn], i) => { if (fn(v)) counts[i]++; });
+                        });
+                        data = buckets.map((b, i) => ({ name: b[0], value: counts[i] })).filter(d => d.value > 0);
+                    } else {
+                        const hc = {};
+                        subset.forEach(m => { if (m.handedness) hc[m.handedness] = (hc[m.handedness] || 0) + 1; });
+                        data = Object.entries(hc).map(([k, v]) => ({ name: k, value: v }));
+                    }
+                    pieChart.setOption({
+                        title: { text: known[field], left: 'center', top: 10 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'vertical',
+                            left: 10,
+                            top: 20,
+                            bottom: 20,
+                            data: data.map(d => d.name),
+                        },
+                        series: [{
+                            type: 'pie', radius: '50%', data, selectedMode: 'multiple',
+                            selectedOffset: 30, label: { formatter: '{b}（{d}%）' }
+                        }]
+                    });
+                }
+                document.querySelectorAll('#ratioMode [data-type]').forEach(b => {
+                    b.addEventListener('click', () => {
+                        document.querySelectorAll('#ratioMode [data-type]').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        selType = b.getAttribute('data-type');
+                        drawPie();
+                    });
+                });
+                document.querySelectorAll('#ratioMode [data-dist]').forEach(b => {
+                    b.addEventListener('click', () => {
+                        document.querySelectorAll('#ratioMode [data-dist]').forEach(x => x.classList.remove('active'));
+                        b.classList.add('active');
+                        dist = b.getAttribute('data-dist');
+                        drawPie();
+                    });
+                });
+
+                // 模式切换逻辑
+                const modeButtons = document.querySelectorAll('#modeToggle button');
+                function clearModeActive() { modeButtons.forEach(b => b.classList.remove('active')); }
+                document.getElementById('btn-radar').addEventListener('click', () => {
+                    clearModeActive(); document.getElementById('btn-radar').classList.add('active');
+                    document.getElementById('radarMode').style.display = '';
+                    document.getElementById('valueMode').style.display = 'none';
+                    document.getElementById('ratioMode').style.display = 'none';
+                });
+                document.getElementById('btn-value').addEventListener('click', () => {
+                    clearModeActive(); document.getElementById('btn-value').classList.add('active');
+                    document.getElementById('radarMode').style.display = 'none';
+                    document.getElementById('valueMode').style.display = '';
+                    document.getElementById('ratioMode').style.display = 'none';
+                    drawBar();
+                });
+                document.getElementById('btn-ratio').addEventListener('click', () => {
+                    clearModeActive(); document.getElementById('btn-ratio').classList.add('active');
+                    document.getElementById('radarMode').style.display = 'none';
+                    document.getElementById('valueMode').style.display = 'none';
+                    document.getElementById('ratioMode').style.display = '';
+                    drawPie();
+                });
+                document.getElementById('btn-radar').click();
             });
-        });
     </script>
 </body>
 

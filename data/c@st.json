@@ -2,6 +2,7 @@
     {
         "production": "THE IDOLM@STER",
         "created_date": "2005-07-26",
+        "image_color": "#f34f6d",
         "staff": [
             {
                 "name": "天海 春香",
@@ -383,6 +384,7 @@
     {
         "production": "CINDERELLA GIRLS",
         "created_date": "2011-11-28",
+        "image_color": "#2681c8",
         "staff": [
             {
                 "name": "島村 卯月",
@@ -4984,6 +4986,7 @@
     {
         "production": "MILLION LIVE!",
         "created_date": "2013-02-27",
+        "image_color": "#ffc30b",
         "staff": [
             {
                 "name": "春日 未来",
@@ -5944,6 +5947,7 @@
     {
         "production": "SideM",
         "created_date": "2014-07-17",
+        "image_color": "#0fbe94",
         "staff": [
             {
                 "name": "天ヶ瀬 冬馬",
@@ -7068,6 +7072,7 @@
     {
         "production": "SHINY COLORS",
         "created_date": "2018-04-24",
+        "image_color": "#8dbbff",
         "staff": [
             {
                 "name": "櫻木 真乃",
@@ -7779,6 +7784,7 @@
     {
         "production": "Gakuen",
         "created_date": "2024-05-16",
+        "image_color": "#f39800",
         "staff": [
             {
                 "name": "花海 咲季",
@@ -8194,6 +8200,7 @@
     {
         "production": "876 Production",
         "created_date": "2009-09-17",
+        "image_color": "#656a75",
         "staff": [
             {
                 "name": "日高 愛",
@@ -8266,7 +8273,7 @@
             },
             {
                 "name": "灯里 愛夏",
-                "cv": "unknown",
+                "cv": "?",
                 "age": null,
                 "gender": "女",
                 "blood_type": "B",
@@ -8285,7 +8292,7 @@
             },
             {
                 "name": "上水流 宇宙",
-                "cv": "unknown",
+                "cv": "?",
                 "age": null,
                 "gender": "女",
                 "blood_type": "B",
@@ -8304,7 +8311,7 @@
             },
             {
                 "name": "レトラ",
-                "cv": "unknown",
+                "cv": "?",
                 "age": null,
                 "gender": "女",
                 "blood_type": "O",
@@ -8383,6 +8390,7 @@
     {
         "production": "961 Production",
         "created_date": "2009-02-19",
+        "image_color": "#000000",
         "staff": [
             {
                 "name": "玲音",
@@ -8553,6 +8561,7 @@
     {
         "production": "Others",
         "created_date": null,
+        "image_color": null,
         "staff": [
             {
                 "name": "日高 舞",
