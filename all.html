@@ -175,33 +175,58 @@
                 const h2 = document.createElement('h2'); h2.textContent = role.name; textDiv.appendChild(h2);
                 const detailFields = [['声优', 'cv'], ['生日', 'birthday'], ['血型', 'blood_type'], ['出身', 'hometown'], ['惯用手', 'handedness'], ['所属组合', 'group'], ['首次登场', 'debut_date'], ['介绍', 'bio']];
                 detailFields.forEach(([label, key]) => { let val = role[key]; if (val == null) return; if (key === 'birthday' && typeof val === 'string' && val.length === 4) { const m = parseInt(val.slice(0, 2)); const d = parseInt(val.slice(2)); val = `${m}月${d}日`; } if (key === 'group' && val === '非可育成偶像') { return; } if (val == null) return; const div = document.createElement('div'); div.className = 'info'; div.innerHTML = `<strong>${label}:</strong> ${val}`; textDiv.appendChild(div); });
-                const radarContainer = document.createElement('div'); radarContainer.id = 'radarChart'; radarContainer.style.width = '100%'; radarContainer.style.height = '260px'; textDiv.appendChild(radarContainer);
                 if (role.img) { const imgEl = document.createElement('img'); imgEl.src = role.img; detail.append(textDiv, imgEl); } else detail.append(textDiv);
                 modal.style.display = 'flex';
 
+                if (!role.age && !role.height && !role.weight && !role.three_sizes) { return; }
+                const radarContainer = document.createElement('div'); radarContainer.id = 'radarChart'; radarContainer.style.width = '100%'; radarContainer.style.height = '260px'; textDiv.appendChild(radarContainer);
                 const radarChart = echarts.init(radarContainer);
-                // 构造 indicator 和数据
                 const dims = [
                     { name: '年龄', value: role.age },
-                    { name: '身高(cm)', value: role.height },
-                    { name: '体重(kg)', value: role.weight },
-                    { name: '胸围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[0] : null },
-                    { name: '腰围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[1] : null },
-                    { name: '臀围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[2] : null },
+                    { name: '身高', value: role.height },
+                    { name: '体重', value: role.weight },
+                    { name: '胸围', value: Array.isArray(role.three_sizes) ? role.three_sizes[0] : null },
+                    { name: '腰围', value: Array.isArray(role.three_sizes) ? role.three_sizes[1] : null },
+                    { name: '臀围', value: Array.isArray(role.three_sizes) ? role.three_sizes[2] : null },
                 ].filter(d => d.value != null);
                 const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
                 const clr = main.includes(role.production) ? colorMap[role.production] : colorMap['Others'];
-                const minVals = { '年龄': 9, '身高(cm)': 127, '体重(kg)': 28, '胸围(cm)': 60, '腰围(cm)': 47, '臀围(cm)': 65 };
-                const maxVals = { '年龄': 28, '身高(cm)': 175, '体重(kg)': 60, '胸围(cm)': 95, '腰围(cm)': 65, '臀围(cm)': 92 };
+                const minVals = { '年龄': 9, '身高': 127, '体重': 28, '胸围': 60, '腰围': 47, '臀围': 65 };
+                const maxVals = { '年龄': 28, '身高': 175, '体重': 60, '胸围': 95, '腰围': 65, '臀围': 92 };
+                const imgColor = role.image_color ? role.image_color : clr;
                 const option = {
-                    textStyle: {
-                        fontFamily: 'font-title', fontSize: 14
+                    textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                    tooltip: {
+                        formatter: function (params) {
+                            const seriesName = role.name;
+                            const dataValue = params.value;
+                            var dotHtml = `<span style="display:inline-block;margin:0 10px 2px 3px;border-radius:4px;width:4px;height:4px;background-color:${imgColor}"></span>`
+                            let tooltipContent = `<div>${seriesName}</div>`;
+
+                            dims.forEach((dim, index) => {
+                                let unit = '';
+                                if (dim.name === '体重') unit = '(kg)';
+                                if (dim.name === '身高') unit = '(cm)';
+
+                                tooltipContent += `
+                    <div style="display: table-row;">
+                        <div style="display: table-cell; text-align: left; padding-right: 20px;padding-top: 4px;">
+                        ${dotHtml}${dim.name}${unit}
+                        </div>
+                        <div style="display: table-cell; text-align: right; font-weight: bold;padding-top: 4px;">
+                            ${dataValue[index]}
+                        </div>
+                    </div>
+                `;
+                            });
+                            tooltipContent += '</div>';
+                            return tooltipContent;
+                        }
                     },
-                    tooltip: {},
                     radar: {
                         shape: 'polygon', splitNumber: 5, center: ['50%', '50%'],
-                        indicator: dims.map(d => ({ name: d.name, min: minVals[d.name], max: maxVals[d.name] })),
-                        axisName: { color: '#333' },
+                        indicator: dims.map(d => ({ name: `${d.name}(${d.value}${d.name === '年龄' ? '' : d.name === '体重' ? 'kg' : 'cm'})`, min: minVals[d.name], max: maxVals[d.name] })),
+                        axisName: { color: '#000' },
                         axisLine: {
                             lineStyle: {
                                 color: `${clr}80`,
@@ -227,10 +252,10 @@
                         data: [{
                             value: dims.map(d => d.value),
                             name: role.name,
-                            areaStyle: { color: role.image_color, opacity: 0.3 },
-                            itemStyle: { color: role.image_color },
-                            lineStyle: { color: role.image_color }
-                        }],
+                            areaStyle: { color: imgColor, opacity: 0.3 },
+                            itemStyle: { color: imgColor },
+                            lineStyle: { color: imgColor }
+                        }]
                     }]
                 };
                 radarChart.setOption(option);
