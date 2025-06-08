@@ -63,7 +63,26 @@
                         { name: '腰围(cm)', min: 53, max: 57 },
                         { name: '臀围(cm)', min: 78, max: 83 }
                     ],
-                    axisName: { color: '#333' }
+                    axisName: { color: '#333' },
+                    axisLine: {
+                        lineStyle: {
+                            color: '#ff74b880',
+                            width: 1,
+                            type: 'solid'
+                        }
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#ff74b880',
+                            width: 1,
+                        }
+                    },
+                    splitArea: {
+                        show: true,
+                        areaStyle: {
+                            color: ['#0000', '#ff74b820'],
+                        }
+                    }
                 },
                 series: [{
                     type: 'radar',

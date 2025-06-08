@@ -153,7 +153,26 @@
                             { name: '身高(cm)', min: 155, max: 175 },
                             { name: '体重(kg)', min: 40, max: 60 },
                         ],
-                        axisName: { color: '#333' }
+                        axisName: { color: '#333' },
+                        axisLine: {
+                            lineStyle: {
+                                color: '#ff74b880',
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: '#ff74b880',
+                                width: 1,
+                            }
+                        },
+                        splitArea: {
+                            show: true,
+                            areaStyle: {
+                                color: ['#0000', '#ff74b820'],
+                            }
+                        }
                     },
                     series: [{
                         name: '315 ALLSTARS', type: 'radar', data: [{

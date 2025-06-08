@@ -157,7 +157,7 @@
                     const card = document.createElement('div'); card.className = 'card';
                     const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
                     const clr = main.includes(role.production) ? colorMap[role.production] : colorMap['Others'];
-                    card.style.boxShadow = `inset 0 0 12px ${clr}`;
+                    card.style.boxShadow = `inset 0 0 10px ${clr}`; card.style.border = `1px solid ${clr}`;
                     if (role.img) { const img = document.createElement('img'); img.src = role.img; card.appendChild(img); } else { const ph = document.createElement('div'); ph.className = 'img-placeholder'; card.appendChild(ph); }
                     const nm = document.createElement('div'); nm.className = 'name';
                     let lbl = role.name;
@@ -170,7 +170,7 @@
 
             function showDetail(role) {
                 const dlg = document.querySelector('#modal .dialog'); dlg.style.border = ''; dlg.style.boxShadow = '';
-                if (role.image_color) { dlg.style.boxShadow = `inset 0 0 12px ${role.image_color}`; }
+                if (role.image_color) { dlg.style.boxShadow = `inset 0 0 12px ${role.image_color}`; dlg.style.border = `1px solid ${role.image_color}`; }
                 detail.innerHTML = ''; const textDiv = document.createElement('div'); textDiv.className = 'text';
                 const h2 = document.createElement('h2'); h2.textContent = role.name; textDiv.appendChild(h2);
                 const detailFields = [['声优', 'cv'], ['生日', 'birthday'], ['血型', 'blood_type'], ['出身', 'hometown'], ['惯用手', 'handedness'], ['所属组合', 'group'], ['首次登场', 'debut_date'], ['介绍', 'bio']];
@@ -189,8 +189,10 @@
                     { name: '腰围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[1] : null },
                     { name: '臀围(cm)', value: Array.isArray(role.three_sizes) ? role.three_sizes[2] : null },
                 ].filter(d => d.value != null);
+                const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
+                const clr = main.includes(role.production) ? colorMap[role.production] : colorMap['Others'];
                 const minVals = { '年龄': 9, '身高(cm)': 127, '体重(kg)': 28, '胸围(cm)': 60, '腰围(cm)': 47, '臀围(cm)': 65 };
-                const maxVals = { '年龄': 31, '身高(cm)': 180, '体重(kg)': 61, '胸围(cm)': 100, '腰围(cm)': 67, '臀围(cm)': 93 };
+                const maxVals = { '年龄': 28, '身高(cm)': 175, '体重(kg)': 60, '胸围(cm)': 95, '腰围(cm)': 65, '臀围(cm)': 92 };
                 const option = {
                     textStyle: {
                         fontFamily: 'font-title', fontSize: 14
@@ -199,7 +201,26 @@
                     radar: {
                         shape: 'polygon', splitNumber: 5, center: ['50%', '50%'],
                         indicator: dims.map(d => ({ name: d.name, min: minVals[d.name], max: maxVals[d.name] })),
-                        axisName: { color: '#333' }
+                        axisName: { color: '#333' },
+                        axisLine: {
+                            lineStyle: {
+                                color: `${clr}80`,
+                                width: 1,
+                                type: 'solid'
+                            }
+                        },
+                        splitLine: {
+                            lineStyle: {
+                                color: `${clr}80`,
+                                width: 1,
+                            }
+                        },
+                        splitArea: {
+                            show: true,
+                            areaStyle: {
+                                color: ['#0000', `${clr}20`],
+                            }
+                        }
                     },
                     series: [{
                         type: 'radar',
