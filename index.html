@@ -9,9 +9,10 @@
     <link rel="stylesheet" href="css/bg.css">
     <style>
         #legend {
-            width: 48%;
+            width: fit-content;
             text-align: center;
-            margin: 10px auto 30px auto;
+            margin: 10px auto 30px;
+            padding: 0 10px;
             border: 1px solid #ccc;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             background: #ffffffe0;
@@ -22,49 +23,49 @@
         #legend1:hover {
             width: 70px;
             background: #f34f6d;
-            box-shadow: 0 8px 12px -3px #f34f6d;
+            box-shadow: 0 0 12px #f34f6d;
         }
 
         #legend2:hover {
             width: 44px;
             background: #2681c8;
-            box-shadow: 0 8px 12px -3px #2681c8;
+            box-shadow: 0 0 12px #2681c8;
         }
 
         #legend3:hover {
             width: 43px;
             background: #ffc30b;
-            box-shadow: 0 8px 12px -3px #ffc30b;
+            box-shadow: 0 0 12px #ffc30b;
         }
 
         #legend4:hover {
             width: 66px;
             background: #0fbe94;
-            box-shadow: 0 8px 12px -3px #0fbe94;
+            box-shadow: 0 0 12px #0fbe94;
         }
 
         #legend5:hover {
             width: 42px;
             background: #8dbbff;
-            box-shadow: 0 8px 12px -3px #8dbbff;
+            box-shadow: 0 0 12px #8dbbff;
         }
 
         #legend6:hover {
             width: 43px;
             background: #f39800;
-            box-shadow: 0 8px 12px -3px #f39800;
+            box-shadow: 0 0 12px #f39800;
         }
 
         #legend7:hover {
             width: 71px;
             background: #656a75;
-            box-shadow: 0 8px 12px -3px #656a75;
+            box-shadow: 0 0 12px #656a75;
         }
 
         #legend8:hover {
-            width: 175px;
+            width: 180px;
             background: #ff74b8;
-            box-shadow: 0 8px 12px -3px #ff74b8;
+            box-shadow: 0 0 12px #ff74b8;
         }
 
         .legend-item {
@@ -77,7 +78,7 @@
             color: #fefefe;
             border-radius: 4px;
             padding: 4px 6px;
-            transition: 0.4s;
+            transition: 0.4s ease-in-out;
         }
 
         .legend-item:hover .legend-color {
@@ -102,6 +103,16 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
+        #barChart {
+            width: 1000px;
+            height: 600px;
+        }
+
+        #distChart {
+            width: 960px;
+            height: 600px;
+        }
+
         #modeToggle {
             display: flex;
             flex-direction: row;
@@ -123,7 +134,7 @@
             font-family: 'font-title';
             font-size: 16px;
             cursor: pointer;
-            transition: 0.4s;
+            transition: 0.4s ease-in-out;
             user-select: none;
         }
 
@@ -151,7 +162,7 @@
         }
 
         #barChartBtns,
-        #prodBtns {
+        #distBtns {
             padding-left: 20px;
         }
 
@@ -161,15 +172,36 @@
 
         #prodBtns {
             gap: 30px;
-            padding-right: 40px;
         }
 
         #distBtns {
-            gap: 30px;
+            gap: 20px;
+            padding-right: 40px;
         }
 
         #barChartStaticBtns {
             gap: 160px;
+        }
+
+        #barChartStaticBtns button,
+        #distBtns button {
+            width: 40px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #barChartStaticBtns button {
+            height: 100px;
+        }
+
+        #distBtns button {
+            height: 90px;
+        }
+
+        #pieChartContainer #prodBtns button {
+            width: 90px;
         }
 
         #modeToggle button:hover,
@@ -180,27 +212,12 @@
         }
 
         #barChartBtns button:hover,
-        #barChartBtns button.active {
+        #barChartBtns button.active,
+        #distBtns button:hover,
+        #distBtns button.active {
             background: #6699ff;
             color: #fefefe;
             box-shadow: 0 0 12px #6699ff;
-        }
-
-        #distBtns button:hover,
-        #distBtns button.active {
-            background: #fec001;
-            color: #fefefe;
-            box-shadow: 0 0 12px #fec001;
-        }
-
-        #barChartStaticBtns button,
-        #distBtns button {
-            width: 40px;
-            height: 100px;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
         }
 
         #barChartStaticBtns button:hover,
@@ -208,16 +225,6 @@
             background: #fec001;
             color: #fefefe;
             box-shadow: 0 0 12px #fec001;
-        }
-
-        #barChart {
-            width: 1000px;
-            height: 600px;
-        }
-
-        #distChart {
-            width: 960px;
-            height: 600px;
         }
 
         #prodBtns button#pieBtnALL:hover,
@@ -327,6 +334,14 @@
 
         <div id="ratioMode">
             <div id="pieChartContainer">
+                <div id="distBtns">
+                    <button id="btn-age-dist" class="active">年龄</button>
+                    <button id="btn-height-dist">身高</button>
+                    <button id="btn-bust-dist">胸围</button>
+                    <button id="btn-home-dist">出身地</button>
+                    <button id="btn-hand-dist">惯用手</button>
+                </div>
+                <div id="distChart"></div>
                 <div id="prodBtns">
                     <button data-prod="All" id="pieBtnALL" class="active">ALL</button>
                     <button data-prod="THE IDOLM@STER" id="pieBtn765AS">765AS</button>
@@ -337,13 +352,7 @@
                     <button data-prod="Gakuen" id="pieBtnGK">GK</button>
                     <button data-prod="Others" id="pieBtnOthers">Others</button>
                 </div>
-                <div id="distChart"></div>
-                <div id="distBtns">
-                    <button id="btn-age-dist" class="active">年龄</button>
-                    <button id="btn-height-dist">身高</button>
-                    <button id="btn-home-dist">出身地</button>
-                    <button id="btn-hand-dist">惯用手</button>
-                </div>
+
             </div>
         </div>
     </div>
@@ -627,7 +636,6 @@
                 // ─────── 6. 饼图（占比）计算 ───────
                 function computeDistribution(prodKeys, distType) {
                     const result = [];
-                    // 如果包含 'All'，直接将 prodKeys 设为 allKeys
                     if (prodKeys.includes('All')) {
                         prodKeys = [...allKeysForPie];
                     }
@@ -663,7 +671,6 @@
                     let allValues = [];
                     if (distType === 'age') {
                         prodKeys.forEach(key => {
-                            if (key === 'All') return; // 已处理 above
                             allValues = allValues.concat(stats[key]?.ages || []);
                         });
                         const buckets = { '≤12岁': 0, '13-15岁': 0, '16-18岁': 0, '19-22岁': 0, '≥23岁': 0 };
@@ -681,7 +688,6 @@
                     }
                     if (distType === 'height') {
                         prodKeys.forEach(key => {
-                            if (key === 'All') return;
                             allValues = allValues.concat(stats[key]?.heights || []);
                         });
                         const buckets = { '≤149cm': 0, '150-156cm': 0, '157-162cm': 0, '163-169cm': 0, '≥170cm': 0 };
@@ -697,6 +703,23 @@
                         });
                         return result;
                     }
+                    if (distType === 'bust') {
+                        prodKeys.forEach(key => {
+                            allValues = allValues.concat(stats[key]?.busts || []);
+                        });
+                        const buckets = { '≤72cm': 0, '73-78cm': 0, '79-83cm': 0, '84-89cm': 0, '≥90cm': 0 };
+                        allValues.forEach(b => {
+                            if (b <= 72) buckets['≤72cm']++;
+                            else if (b <= 78) buckets['73-78cm']++;
+                            else if (b <= 83) buckets['79-83cm']++;
+                            else if (b <= 89) buckets['84-89cm']++;
+                            else buckets['≥90cm']++;
+                        });
+                        Object.entries(buckets).forEach(([name, value]) => {
+                            if (value > 0) result.push({ name, value });
+                        });
+                        return result;
+                    }
                     return [];
                 }
 
@@ -705,7 +728,7 @@
                 function getAgeOption(prodKeys) {
                     const ageData = computeDistribution(prodKeys, 'age');
                     return {
-                        title: { text: '年龄分布', left: 'center', top: 20 },
+                        title: { text: '年龄', left: 'center', top: 20 },
                         textStyle: { fontFamily: 'font-title', fontSize: 14 },
                         tooltip: {
                             trigger: 'item',
@@ -744,7 +767,7 @@
                 function getHeightOption(prodKey) {
                     const heightData = computeDistribution(prodKey, 'height');
                     return {
-                        title: { text: '身高分布', left: 'center', top: 20 },
+                        title: { text: '身高(cm)', left: 'center', top: 20 },
                         textStyle: { fontFamily: 'font-title', fontSize: 14 },
                         tooltip: {
                             trigger: 'item',
@@ -763,7 +786,6 @@
                             position: 'inside',
                             formatter: '{b}（{d}%）'
                         },
-
                         series: [{
                             type: 'pie',
                             radius: '50%',
@@ -780,11 +802,49 @@
                         }]
                     };
                 }
+                function getBustOption(prodKey) {
+                    const bustData = computeDistribution(prodKey, 'bust');
+                    return {
+                        title: { text: '胸围(cm)', left: 'center', top: 20 },
+                        textStyle: { fontFamily: 'font-title', fontSize: 14 },
+                        tooltip: {
+                            trigger: 'item',
+                            formatter: params => `${params.name}<br/>${params.marker}${params.value}人<br/>${params.marker}${params.percent}%`
+                        },
+                        legend: {
+                            type: 'scroll',
+                            orient: 'vertical',
+                            left: 10,
+                            top: 20,
+                            bottom: 20,
+                            data: bustData.map(d => d.name)
+                        },
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}（{d}%）'
+                        },
+                        series: [{
+                            type: 'pie',
+                            radius: '50%',
+                            data: bustData,
+                            selectedMode: 'multiple',
+                            selectedOffset: 30,
+                            emphasis: {
+                                itemStyle: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0,0,0,0.5)'
+                                }
+                            }
+                        }]
+                    };
+                }
 
                 function getHomeOption(prodKey) {
                     const homeData = computeDistribution(prodKey, 'home');
                     return {
-                        title: { text: '出身地分布', left: 'center', top: 20 },
+                        title: { text: '出身地', left: 'center', top: 20 },
                         textStyle: { fontFamily: 'font-title', fontSize: 14 },
                         tooltip: {
                             trigger: 'item',
@@ -798,10 +858,17 @@
                             bottom: 20,
                             data: homeData.map(d => d.name)
                         },
+                        label: {
+                            show: true,
+                            position: 'inside',
+                            formatter: '{b}（{d}%）'
+                        },
                         series: [{
                             type: 'pie',
                             radius: ['50%', '70%'],
                             data: homeData,
+                            selectedMode: 'single',
+                            selectedOffset: 0,
                             emphasis: {
                                 itemStyle: {
                                     shadowBlur: 10,
@@ -816,7 +883,7 @@
                 function getHandOption(prodKey) {
                     const handData = computeDistribution(prodKey, 'hand');
                     return {
-                        title: { text: '惯用手分布', left: 'center', top: 20 },
+                        title: { text: '惯用手', left: 'center', top: 20 },
                         textStyle: { fontFamily: 'font-title', fontSize: 14 },
                         tooltip: {
                             trigger: 'item',
@@ -916,8 +983,11 @@
                         case 'hand':
                             option = getHandOption(currentProds);
                             break;
+                        case 'bust':
+                            option = getBustOption(currentProds);
+                            break;
                     }
-                    distChart.setOption(option, true);
+                    distChart.setOption(option);
                 }
 
                 document.getElementById('btn-age-dist').addEventListener('click', () => {
@@ -942,6 +1012,13 @@
                     clearDistActive();
                     document.getElementById('btn-hand-dist').classList.add('active');
                     currentDist = 'hand';
+                    renderDistChart();
+                });
+
+                document.getElementById('btn-bust-dist').addEventListener('click', () => {
+                    clearDistActive();
+                    document.getElementById('btn-bust-dist').classList.add('active');
+                    currentDist = 'bust';
                     renderDistChart();
                 });
 

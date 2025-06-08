@@ -14,7 +14,7 @@
 
     let time = 0;
 
-    for (let i = 0; i <= 16; ++i) {
+    for (let i = 1; i <= 16; ++i) {
         let interval = 375 - Math.random() * 200;
 
         if (i < 6) {
@@ -23,19 +23,19 @@
             },
                 time);
         }
-        if (i < 7) {
+        else if (i === 6) {
             setTimeout(function () {
                 textInternalMarkEl.innerHTML = text.slice(5, i);
             },
                 time);
         }
-        if (i < 10) {
+        else if (i < 10) {
             setTimeout(function () {
                 textInternalEl.innerHTML = text.slice(6, i);
             },
                 time);
         }
-        else if (i < 11) {
+        else if (i === 10) {
             setTimeout(function () {
                 textRearEl.innerHTML = text.slice(9, i);
                 textMarkEl.style.marginLeft = '14px';
@@ -51,7 +51,7 @@
         else {
             setTimeout(function () {
                 exEl[i - 11].innerHTML = '！';
-                textMarkEl.style.animation = 'typing-blink .8s step-end 6';
+                textMarkEl.style.animation = 'typing-blink .7s 6';
                 textMarkEl.style.borderColor = 'transparent';
             },
                 time);

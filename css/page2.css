@@ -54,7 +54,7 @@
     font-family: 'font-title';
     font-size: 16px;
     cursor: pointer;
-    transition: 0.4s;
+    transition: 0.4s ease-in-out;
     user-select: none;
 }
 
@@ -86,16 +86,39 @@
 }
 
 #prodBtns {
-    gap: 16px;
-    margin-right: 20px;
+    gap: 60px;
 }
 
 #distBtns {
-    gap: 16px;
+    gap: 24px;
+    margin-right: 20px;
 }
 
 #barChartStaticBtns {
     gap: 120px;
+}
+
+#barChartStaticBtns button,
+#distBtns button {
+    width: 40px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#barChartStaticBtns button {
+    height: 100px;
+}
+
+#distBtns button {
+    height: 90px;
+}
+
+#pieChartContainer #prodBtns button {
+    width: 40px;
+    height: 90px;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
 }
 
 #modeToggle button:hover,
@@ -106,32 +129,12 @@
 }
 
 #barChartBtns button:hover,
-#barChartBtns button.active {
+#barChartBtns button.active,
+#distBtns button:hover,
+#distBtns button.active {
     background: #6699ff;
     color: #fefefe;
     box-shadow: 0 0 12px #6699ff;
-}
-
-#distBtns button:hover,
-#distBtns button.active {
-    background: #fec001;
-    color: #fefefe;
-    box-shadow: 0 0 12px #fec001;
-}
-
-#barChartStaticBtns button,
-#distBtns button,
-#prodBtns button {
-    width: 40px;
-    height: 100px;
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-#prodBtns button {
-    height: 150px;
-    line-height: 16px;
 }
 
 #barChartStaticBtns button:hover,

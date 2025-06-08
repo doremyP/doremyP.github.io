@@ -19,7 +19,7 @@
 
 #filter-container button:hover {
     padding: 8px 16px;
-    transition: all 0.3s ease-in-out;
+    transition: 0.4s ease-in-out;
 }
 
 #filter-container button.active {
@@ -27,16 +27,16 @@
     color: #fefefe;
     border: none;
     padding: 8px 16px;
-    box-shadow: 0 8px 12px -3px var(--btn-color);
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 12px var(--btn-color);
+    transition: 0.4s ease-in-out;
 }
 
 #filter-container button[data-prod="Active"].active {
     background: linear-gradient(45deg, #f34f6d, #2681c8, #ffc30b, #0fbe94, #8dbbff, #f39800);
     color: #fefefe;
-    box-shadow: 0 8px 12px -3px #fff;
+    box-shadow: 0 0 12px #fff;
     border: none;
-    transition: all 0.3s ease-in-out;
+    transition: 0.4s ease-in-out;
 }
 
 /* 自定义选择框样式 */
@@ -58,8 +58,8 @@
     outline: none;
     padding: 8px 16px;
     border-color: #ff74b8;
-    box-shadow: 0 8px 12px -3px #ff74b8;
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 12px #ff74b8;
+    transition: 0.4s ease-in-out;
 }
 
 #card-container {
@@ -237,6 +237,6 @@ span#typing-mark {
     position: relative;
     top: -5px;
     margin-left: 2px;
-    font-size: 30px;
+    font-size: 28px;
     border-right: 2px solid #fff;
 }

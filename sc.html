@@ -87,19 +87,17 @@
         <!-- 占比模式 -->
         <div id="ratioMode">
             <div id="pieChartContainer">
-                <div id="prodBtns">
-                    <button data-type="Stella" id="imasRed"
-                        class="active"><span>S</span><span>t</span><span>e</span><span>l</span><span>l</span><span>a</span></button>
-                    <button data-type="Luna"
-                        id="imasBlue"><span>L</span><span>u</span><span>n</span><span>a</span></button>
-                    <button data-type="Sol" id="imasYellow"><span>S</span><span>o</span><span>l</span></button>
-                </div>
-                <div id="distChart"></div>
                 <div id="distBtns">
                     <button data-dist="age" class="active">年龄</button>
                     <button data-dist="height">身高</button>
                     <button data-dist="bust">胸围</button>
                     <button data-dist="hand">惯用手</button>
+                </div>
+                <div id="distChart"></div>
+                <div id="prodBtns">
+                    <button data-type="Stella" id="imasRed" class="active">Stella</button>
+                    <button data-type="Luna" id="imasBlue">Luna</button>
+                    <button data-type="Sol" id="imasYellow">Sol</button>
                 </div>
             </div>
         </div>
@@ -213,7 +211,7 @@
                 // 绘制柱状图
                 const barChart = echarts.init(document.getElementById('barChart'));
                 let field = 'age', mode = 'mean';
-                const known = { 'age': '年龄', 'height': '身高(cm)', 'weight': '体重(kg)', 'bust': '胸围(cm)', 'waist': '腰围(cm)', 'hip': '臀围(cm)', 'bmi': 'BMI' };
+                const known = { 'age': '年龄', 'height': '身高(cm)', 'weight': '体重(kg)', 'bust': '胸围(cm)', 'waist': '腰围(cm)', 'hip': '臀围(cm)', 'bmi': 'BMI', 'hand': '惯用手' };
                 const mins = { 'age': 15, 'height': 150, 'weight': 40, 'bust': 75, 'waist': 50, 'hip': 75, 'bmi': 15 };
                 function drawBar() {
                     const values = types.map((t, i) => mode === 'mean' ? typeStats[i][field] : typeStats[i][`${field}_median`]);
@@ -278,7 +276,7 @@
                         data = Object.entries(hc).map(([k, v]) => ({ name: k, value: v }));
                     }
                     pieChart.setOption({
-                        title: { text: known[field], left: 'center', top: 10 },
+                        title: { text: known[dist], left: 'center', top: 10 },
                         textStyle: { fontFamily: 'font-title', fontSize: 14 },
                         tooltip: {
                             trigger: 'item',
