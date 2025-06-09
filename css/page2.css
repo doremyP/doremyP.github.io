@@ -32,6 +32,11 @@
     padding: 0 20px;
 }
 
+#valueMode,
+#ratioMode {
+    display: none;
+}
+
 #modeToggle {
     display: flex;
     flex-direction: row;
@@ -55,14 +60,6 @@
     cursor: pointer;
     transition: 0.4s ease-in-out;
     user-select: none;
-}
-
-#valueMode {
-    display: block;
-}
-
-#ratioMode {
-    display: block;
 }
 
 #pieChartContainer,

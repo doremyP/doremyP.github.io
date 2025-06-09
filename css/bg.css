@@ -10,10 +10,183 @@
 
 body {
     margin: 0;
+    background: transparent;
+    font-family: 'font-title';
+}
+
+#loading {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    inset: 0;
+    z-index: 999999;
+    pointer-events: none;
+    transition: 1s;
+}
+
+#load-icon {
+    display: flex;
+    gap: 20px;
+    perspective: 800px;
+    margin-bottom: 100px;
+}
+
+#load-icon svg {
+    width: 72px;
+    transform-style: preserve-3d;
+    /* 总周期 2.5s：前 40%（1s）旋转，剩余保持 */
+    animation: flipSequence 3s linear infinite;
+    animation-fill-mode: both;
+}
+
+/* 一次完整翻转并保持 */
+@keyframes flipSequence {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    40% {
+        transform: rotateY(360deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+/* 延迟启动：每个后续元素推迟 0.5s */
+#load-icon svg:nth-child(1) {
+    animation-delay: 0s;
+}
+
+#load-icon svg:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+#load-icon svg:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+#load-icon svg:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+#load-icon svg:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+#load-icon svg:nth-child(6) {
+    animation-delay: 1.5s;
+}
+
+#loading-text {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    font: bold 36px 'Centaur', 'font-title';
+    animation: colorCycle 10s linear infinite, fadeCycle 12s linear infinite;
+}
+
+/* 颜色循环：六种颜色 */
+@keyframes colorCycle {
+    0% {
+        color: #f34f6d;
+    }
+
+    16.667% {
+        color: #2681c8;
+    }
+
+    33.333% {
+        color: #ffc30b;
+    }
+
+    50% {
+        color: #0fbe94;
+    }
+
+    66.667% {
+        color: #8dbbff;
+    }
+
+    83.333% {
+        color: #f39800;
+    }
+
+    100% {
+        color: #f34f6d;
+    }
+}
+
+/* 透明切换：后20%透明 */
+@keyframes fadeCycle {
+
+    0%,
+    75% {
+        opacity: 1;
+    }
+
+    77%,
+    93.667% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* 一次完整翻转并保持 */
+@keyframes flipSequence {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    40% {
+        transform: rotateY(360deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+/* 延迟启动：每个后续元素推迟 0.5s */
+#load-icon svg:nth-child(1) {
+    animation-delay: 0s;
+}
+
+#load-icon svg:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+#load-icon svg:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+#load-icon svg:nth-child(4) {
+    animation-delay: 0.9s;
+}
+
+#load-icon svg:nth-child(5) {
+    animation-delay: 1.2s;
+}
+
+#load-icon svg:nth-child(6) {
+    animation-delay: 1.5s;
+}
+
+#bodyContainer {
+    margin: 0;
     padding: 20px;
     display: grid;
     place-items: center;
-    background: #fafafa;
+    transition: 1s ease-in-out;
+    background: transparent;
     font-family: 'font-title';
 }
 
