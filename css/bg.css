@@ -25,7 +25,7 @@ body {
     inset: 0;
     z-index: 999999;
     pointer-events: none;
-    transition: 1s;
+    transition: 1s ease-in-out;
 }
 
 #load-icon {
@@ -200,7 +200,7 @@ a:hover {
     box-shadow: rgba(66, 89, 239, 0.137) 0px 8px 12px -3px;
     border-radius: 4px;
     padding: 2px 4px;
-    transition: 0.3s ease-in-out;
+    transition: 0.4s ease-in-out;
     background: #6699ff;
 }
 
@@ -274,7 +274,7 @@ button:focus-visible {
     text-shadow: #fff 0 0 15px;
     cursor: pointer;
     user-select: none;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease-in-out;
 }
 
 #title::after {
@@ -294,18 +294,26 @@ button:focus-visible {
 }
 
 /* 侧边栏 */
-#rightside {
+#scroll-buttons {
     display: block;
-    transform: translateX(-58px);
     opacity: 0.98;
     position: fixed;
-    right: -96px;
+    right: -38px;
     bottom: 40px;
     z-index: 100;
     transition: cubic-bezier(0.6, -0.28, 0.735, 0.045) 0.5s;
 }
 
-#rightside button {
+#return-button {
+    opacity: 0.98;
+    position: fixed;
+    right: 10px;
+    bottom: 94px;
+    z-index: 100;
+}
+
+#return-button,
+#scroll-buttons button {
     width: 38px;
     height: 38px;
     display: flex;
@@ -316,37 +324,46 @@ button:focus-visible {
     font-size: 15px;
     border: none;
     border-radius: 6px;
-    margin-bottom: 6px;
     color: #fff;
     background-color: #6699ff;
-    transition: 0.4s;
+    transition: 0.4s ease-in-out;
 }
 
-#rightside button:hover {
+#scroll-buttons button#go-up {
+    margin-bottom: 70px;
+}
+
+#return-button {
+    box-shadow: 0 0 12px #6699ff;
+}
+
+#return-button:hover,
+#scroll-buttons button:hover {
     background-color: #e22b30;
-    box-shadow: 0 0 12px #e22b30;
+    box-shadow: 0 0 12px #e22b30 !important;
 }
 
-#rightside button#go-up:hover svg {
+#scroll-buttons button#go-up:hover svg {
     display: block !important;
 }
 
-#rightside button#go-up:hover #percent {
+#scroll-buttons button#go-up:hover #percent {
     display: none !important;
 }
 
-#rightside button svg {
+#return-button svg,
+#scroll-buttons button svg {
     display: block;
     width: 18px;
     height: 18px;
 }
 
-#rightside button#go-up #percent {
+#scroll-buttons button#go-up #percent {
     display: none;
     font-weight: bold;
 }
 
-#rightside button#go-up #percent span {
+#scroll-buttons button#go-up #percent span {
     font-size: 12px;
     margin-right: -1px;
 }

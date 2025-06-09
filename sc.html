@@ -181,6 +181,7 @@
             </div>
         </div>
     </div>
+    <script src="js/loading.js"></script>
     <script src="js/title.js"></script>
     <script src="js/echarts.min.js"></script>
     <script>
@@ -261,6 +262,9 @@
                             }
                         }]
                     }]
+                });
+                radarChart.on('click', e => {
+                    window.location.href = 'index.html';
                 });
 
                 // 计算各 type 统计
@@ -416,7 +420,6 @@
                 });
             });
     </script>
-    <script src="js/loading.js"></script>
 </body>
 
 </html>

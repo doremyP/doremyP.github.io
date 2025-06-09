@@ -90,23 +90,30 @@
     </div>
     <img src="assets/img/IM@S_Series_15th_Anniversary_Song_Single_cover.jpg" alt="" id="bg" />
     <div id="bodyContainer">
-        <div id="rightside">
-            <button id="go-up" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
+        <div id="scroll-buttons">
+            <button id="go-up" title="回到顶部" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#fff"
                         d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2 160 448c0 17.7 14.3 32 32 32s32-14.3 32-32l0-306.7L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" />
                 </svg><span id="percent"></span>
             </button>
-            <button id="go-down" onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })">
+            <button id="go-down" title="直达底部"
+                onclick="window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
                     <path fill="#fff"
                         d="M169.4 470.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 370.8 224 64c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 306.7L54.6 265.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z" />
                 </svg>
             </button>
-
         </div>
+        <button id="return-button" title="返回主页" onclick="window.location.href='index.html'">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path fill="#fff"
+                    d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z" />
+            </svg>
+        </button>
         <h1><button id="title">角色一览</button></h1>
         <div id="typing">
             <span id="typing-front"></span><span id="typing-intermark"></span><span id="typing-internal"></span><span
@@ -123,69 +130,8 @@
             </div>
         </div>
     </div>
+    <script src="js/loading.js"></script>
     <script src="js/title.js"></script>
-    <script>
-        // これからも、アイドル!!!!!!
-        const textFrontEl = document.getElementById('typing-front')
-        const textInternalMarkEl = document.getElementById('typing-intermark')
-        const textInternalEl = document.getElementById('typing-internal')
-        const textRearEl = document.getElementById('typing-rear')
-        const textMarkEl = document.getElementById('typing-mark')
-
-        const exEl = Array
-            .from({ length: 6 }, (_, i) => document.getElementById(`ex-mark${i + 1}`))
-            .filter(Boolean);
-
-        const text = 'これからも、アイドル';
-
-        let time = 0;
-
-        for (let i = 1; i <= 16; ++i) {
-            let interval = 375 - Math.random() * 200;
-
-            if (i < 6) {
-                setTimeout(function () {
-                    textFrontEl.innerHTML = text.slice(0, i);
-                },
-                    time);
-            }
-            else if (i === 6) {
-                setTimeout(function () {
-                    textInternalMarkEl.innerHTML = text.slice(5, i);
-                },
-                    time);
-            }
-            else if (i < 10) {
-                setTimeout(function () {
-                    textInternalEl.innerHTML = text.slice(6, i);
-                },
-                    time);
-            }
-            else if (i === 10) {
-                setTimeout(function () {
-                    textRearEl.innerHTML = text.slice(9, i);
-                    textMarkEl.style.marginLeft = '14px';
-                },
-                    time);
-            }
-            else if (i < 16) {
-                setTimeout(function () {
-                    exEl[i - 11].innerHTML = '！';
-                },
-                    time);
-            }
-            else {
-                setTimeout(function () {
-                    exEl[i - 11].innerHTML = '！';
-                    textMarkEl.style.animation = 'typing-blink .7s 6';
-                    textMarkEl.style.borderColor = 'transparent';
-                },
-                    time);
-            }
-            time += interval;
-        }
-
-    </script>
     <script src="./js/scroll.js"></script>
     <script src="js/echarts.min.js"></script>
     <script>
@@ -405,8 +351,67 @@
             closeBtn.onclick = () => modal.style.display = 'none';
             modal.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
         });
+
+        // これからも、アイドル!!!!!!
+        const textFrontEl = document.getElementById('typing-front')
+        const textInternalMarkEl = document.getElementById('typing-intermark')
+        const textInternalEl = document.getElementById('typing-internal')
+        const textRearEl = document.getElementById('typing-rear')
+        const textMarkEl = document.getElementById('typing-mark')
+
+        const exEl = Array
+            .from({ length: 6 }, (_, i) => document.getElementById(`ex-mark${i + 1}`))
+            .filter(Boolean);
+
+        const text = 'これからも、アイドル';
+
+        let time = 0;
+
+        for (let i = 1; i <= 16; ++i) {
+            let interval = 375 - Math.random() * 200;
+
+            if (i < 6) {
+                setTimeout(function () {
+                    textFrontEl.innerHTML = text.slice(0, i);
+                },
+                    time);
+            }
+            else if (i === 6) {
+                setTimeout(function () {
+                    textInternalMarkEl.innerHTML = text.slice(5, i);
+                },
+                    time);
+            }
+            else if (i < 10) {
+                setTimeout(function () {
+                    textInternalEl.innerHTML = text.slice(6, i);
+                },
+                    time);
+            }
+            else if (i === 10) {
+                setTimeout(function () {
+                    textRearEl.innerHTML = text.slice(9, i);
+                    textMarkEl.style.marginLeft = '14px';
+                },
+                    time);
+            }
+            else if (i < 16) {
+                setTimeout(function () {
+                    exEl[i - 11].innerHTML = '！';
+                },
+                    time);
+            }
+            else {
+                setTimeout(function () {
+                    exEl[i - 11].innerHTML = '！';
+                    textMarkEl.style.animation = 'typing-blink .7s 6';
+                    textMarkEl.style.borderColor = 'transparent';
+                },
+                    time);
+            }
+            time += interval;
+        }
     </script>
-    <script src="js/loading.js"></script>
 </body>
 
 </html>

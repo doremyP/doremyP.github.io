@@ -1,6 +1,6 @@
 (function () {
     const bg = document.getElementById('bg');
-    const bgstyle = ['imgblur 1.5s 1 ease-in-out', 'imgopa 3s'];
+    const bgstyle = ['imgblur 2s 1 ease-in-out', 'imgopa 3s'];
     bg.style.animation = bgstyle[Math.floor(Math.random() * bgstyle.length)];
     const btn = document.getElementById('title');
 
