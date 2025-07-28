@@ -3,7 +3,7 @@ function popReminder(condition = true) {
     popup = document.getElementById('reminder');
     if (!popup) return
 
-    var showDelay = 500;
+    var showDelay = 3500;
     var visibleDuration = 5000;
     var hideTimer;
 
