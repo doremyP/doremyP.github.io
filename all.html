@@ -102,6 +102,13 @@
             const detail = document.getElementById('detail-content');
             const closeBtn = document.querySelector('.close');
 
+            const now = new Date();
+            // 将当前时间转换为日本时间字符串
+            const jstDate = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+            const todayStr = String(jstDate.getMonth() + 1).padStart(2, '0') + String(jstDate.getDate()).padStart(2, '0');
+
+            let similarityTargetRole = null;
+
             // Flatten staff; merge 961 and 876 productions into Others
             const allRoles = data.flatMap(prod => prod.staff.map(mem => ({
                 ...mem,
@@ -150,7 +157,17 @@
             <option value="hip">臀围</option>
             <option value="bmi">BMI</option>
         `;
-            sortSelect.onchange = () => { sortAttr = sortSelect.value; updateCards(); };
+            sortSelect.onchange = () => {
+                sortAttr = sortSelect.value;
+                if (sortAttr !== 'similarity') {
+                    const simOpt = sortSelect.querySelector('option[value="similarity"]');
+                    if (simOpt) {
+                        simOpt.remove();
+                    }
+                    similarityTargetRole = null; // 重置基准角色
+                }
+                updateCards();
+            };
             filterContainer.appendChild(sortSelect);
 
             function updateFilters() {
@@ -158,6 +175,46 @@
                     const p = b.dataset.prod;
                     b.classList.toggle('active', p === 'Active' ? activeFilter : selected.has(p));
                 });
+            }
+
+            function calculateSimilarity(target, current) {
+                if (!target || !current) return null;
+
+                let score = 0;
+                let percent = 0;
+                const fcu = (x, min, diff) => { return (x - min) / diff; }
+
+                if (target.height) {
+                    if (!current.height) return null;
+                    score += 0.2 * ((fcu(target.height, 127, 48) - fcu(current.height, 127, 48)) ** 2)
+                    percent += 0.2;
+                }
+                if (target.weight) {
+                    if (!current.weight) return null;
+                    score += 0.15 * ((fcu(target.weight, 28, 32) - fcu(current.weight, 28, 32)) ** 2)
+                    percent += 0.15;
+                }
+                if (Array.isArray(target.three_sizes)) {
+                    if (!Array.isArray(current.three_sizes)) return null;
+                    if (target.three_sizes[0]) {
+                        if (!current.three_sizes[0]) return null;
+                        score += 0.3 * ((fcu(target.three_sizes[0], 60, 35) - fcu(current.three_sizes[0], 60, 35)) ** 2)
+                        percent += 0.3;
+                    }
+                    if (target.three_sizes[1]) {
+                        if (!current.three_sizes[1]) return null;
+                        score += 0.15 * ((fcu(target.three_sizes[1], 47, 18) - fcu(current.three_sizes[1], 47, 18)) ** 2)
+                        percent += 0.15;
+                    }
+                    if (target.three_sizes[2]) {
+                        if (!current.three_sizes[2]) return null;
+                        score += 0.2 * ((fcu(target.three_sizes[2], 65, 27) - fcu(current.three_sizes[2], 65, 27)) ** 2)
+                        percent += 0.2;
+                    }
+                }
+                if (percent === 0) return null;
+                score /= percent;
+                return Math.max(0, (1 - Math.sqrt(score)) * 100);
             }
 
             function getVal(r) {
@@ -169,6 +226,7 @@
                     case 'waist': return Array.isArray(r.three_sizes) ? r.three_sizes[1] : null;
                     case 'hip': return Array.isArray(r.three_sizes) ? r.three_sizes[2] : null;
                     case 'bmi': return (r.height && r.weight) ? r.weight / ((r.height / 100) ** 2) : null;
+                    case 'similarity': return calculateSimilarity(similarityTargetRole, r);
                     default: return null;
                 }
             }
@@ -182,23 +240,34 @@
                     if (sortAttr) { const v = getVal(r); return v != null; }
                     return true;
                 });
-                if (sortAttr) list.sort((a, b) => {
-                    const va = getVal(a), vb = getVal(b);
-                    if (va === vb) {
-                        if (a.age === b.age)
-                        // age 相同，按 birthday（MMDD）倒序
-                        {
-                            const ba = parseInt(a.birthday, 10) || 0;
-                            const bb = parseInt(b.birthday, 10) || 0;
-                            if (sortAttr === "age")
-                                return bb - ba;
-                            return ba - bb;
-
+                if (sortAttr) {
+                    list.sort((a, b) => {
+                        const va = getVal(a), vb = getVal(b);
+                        if (sortAttr === 'similarity') {
+                            return vb - va;
                         }
-                        return b.age - a.age;
-                    }
-                    return va - vb;
-                });
+                        if (va === vb) {
+                            if (a.age === b.age)
+                            // age 相同，按 birthday（MMDD）倒序
+                            {
+                                const ba = parseInt(a.birthday, 10) || 0;
+                                const bb = parseInt(b.birthday, 10) || 0;
+                                if (sortAttr === "age")
+                                    return bb - ba;
+                                return ba - bb;
+
+                            }
+                            return b.age - a.age;
+                        }
+                        return va - vb;
+                    });
+                } else {
+                    list.sort((a, b) => {
+                        const isBirthdayA = (a.birthday === todayStr);
+                        const isBirthdayB = (b.birthday === todayStr);
+                        return (isBirthdayB ? 1 : 0) - (isBirthdayA ? 1 : 0);
+                    });
+                }
                 list.forEach(role => {
                     const card = document.createElement('div'); card.className = 'card';
                     const main = ['THE IDOLM@STER', 'CINDERELLA GIRLS', 'MILLION LIVE!', 'SideM', 'SHINY COLORS', 'Gakuen'];
@@ -207,7 +276,17 @@
                     if (role.img) { const img = document.createElement('img'); img.src = role.img; card.appendChild(img); } else { const ph = document.createElement('div'); ph.className = 'img-placeholder'; card.appendChild(ph); }
                     const nm = document.createElement('div'); nm.className = 'name';
                     let lbl = role.name;
-                    if (sortAttr) { const v = getVal(role); lbl += sortAttr === 'age' ? ` (${v})` : (['height', 'weight', 'bust', 'waist', 'hip'].includes(sortAttr) ? ` (${v.toFixed(1)})` : ` (${v.toFixed(2)})`); }
+                    if (role.birthday === todayStr && !sortAttr) {
+                        lbl = '🎉 ' + lbl + ' 🎂';
+                    }
+                    if (sortAttr) {
+                        const v = getVal(role);
+                        if (sortAttr === 'similarity') {
+                            lbl += ` (${v.toFixed(2)}%)`;
+                        } else {
+                            lbl += sortAttr === 'age' ? ` (${v})` : (['height', 'weight', 'bust', 'waist', 'hip'].includes(sortAttr) ? ` (${v.toFixed(1)})` : ` (${v.toFixed(2)})`);
+                        }
+                    }
                     nm.textContent = lbl; card.appendChild(nm);
                     card.onclick = () => showDetail(role);
                     container.appendChild(card);
@@ -226,6 +305,34 @@
 
                 if (!role.age && !role.height && !role.weight && !role.three_sizes) { return; }
                 const radarContainer = document.createElement('div'); radarContainer.id = 'radarChart'; radarContainer.style.width = '100%'; radarContainer.style.height = '260px'; textDiv.appendChild(radarContainer);
+
+                radarContainer.onclick = (e) => {
+                    // 阻止事件冒泡防止关闭弹窗（虽然下面我们手动关了，但习惯上最好阻止一下）
+                    e.stopPropagation();
+
+                    // 1. 设置基准角色
+                    similarityTargetRole = role;
+
+                    // 2. 检查并添加“相似度”选项
+                    let simOpt = sortSelect.querySelector('option[value="similarity"]');
+                    if (!simOpt) {
+                        simOpt = document.createElement('option');
+                        simOpt.value = 'similarity';
+                        simOpt.textContent = '身材相似度';
+                        sortSelect.appendChild(simOpt);
+                    }
+
+                    // 3. 选中该选项并更新排序属性
+                    sortSelect.value = 'similarity';
+                    sortAttr = 'similarity';
+
+                    // 4. 关闭弹窗
+                    modal.style.display = 'none';
+
+                    // 5. 刷新卡片列表
+                    updateCards();
+                };
+
                 const radarChart = echarts.init(radarContainer);
                 const dims = [
                     { name: '年龄', value: role.age },

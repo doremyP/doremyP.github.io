@@ -216,17 +216,13 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-image: -webkit-linear-gradient(135deg,
-            #656a75 0%,
-            #656a75c0 10%,
-            #656a75c0 90%,
-            #656a75 100%);
+    background-color: #000;
     border-radius: 2em;
 }
 
 ::-webkit-scrollbar-thumb:hover {
     background-image: none;
-    background-color: #ff74b8;
+    background-color: #fff;
 }
 
 ::-webkit-scrollbar-corner {
@@ -241,6 +237,11 @@ body {
     transition: 1s ease-in-out;
     background: transparent;
     font-family: 'font-title';
+}
+
+::selection {
+    background-color: #ff74b8;
+    color: #fff;
 }
 
 a {
