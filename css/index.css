@@ -1,0 +1,339 @@
+/* css/index.css — index.html 专用样式 */
+
+#legend {
+    width: fit-content;
+    text-align: center;
+    margin: 10px auto 30px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #ffffffe0;
+    border-radius: 4px;
+}
+
+.legend-item {
+    color: #000;
+    display: inline-block;
+    margin: 10px;
+}
+
+.legend-item:hover {
+    padding: 3px 0;
+    color: #fefefe;
+    border-radius: 4px;
+    transition: .4s ease-in-out;
+}
+
+.legend-item:hover .legend-color {
+    display: none;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    position: relative;
+    top: -2px;
+    vertical-align: middle;
+}
+
+/* Legend hover — 每个 legend 使用 CSS 变量 */
+#legend1:hover {
+    width: 70px;
+    background: #f34f6d;
+    box-shadow: 0 0 12px #f34f6d;
+}
+
+#legend2:hover {
+    width: 44px;
+    background: #2681c8;
+    box-shadow: 0 0 12px #2681c8;
+}
+
+#legend3:hover {
+    width: 43px;
+    background: #ffc30b;
+    box-shadow: 0 0 12px #ffc30b;
+}
+
+#legend4:hover {
+    width: 66px;
+    background: #0fbe94;
+    box-shadow: 0 0 12px #0fbe94;
+}
+
+#legend5:hover {
+    width: 42px;
+    background: #8dbbff;
+    box-shadow: 0 0 12px #8dbbff;
+}
+
+#legend6:hover {
+    width: 52px;
+    background: #f39800;
+    box-shadow: 0 0 12px #f39800;
+}
+
+#legend7:hover {
+    width: 71px;
+    background: #656a75;
+    box-shadow: 0 0 12px #656a75;
+}
+
+#legend8:hover {
+    width: 113px;
+    background: #ff74b8;
+    box-shadow: 0 0 12px #ff74b8;
+}
+
+/* 图表容器 */
+#chartWrapper {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto 40px;
+    padding-top: 20px;
+    background: #ffffffe0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+#barChart {
+    flex: 1;
+    min-width: 0;
+    height: clamp(300px, 50vw, 600px);
+}
+
+#distChart {
+    flex: 1;
+    min-width: 0;
+    height: clamp(300px, 50vw, 600px);
+}
+
+/* 模式切换 */
+#modeToggle button,
+#barChartStaticBtns button,
+#barChartBtns button,
+#prodBtns button,
+#distBtns button {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    font-family: 'font-title';
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+#valueMode {
+    display: block;
+}
+
+#ratioMode {
+    display: none;
+}
+
+#pieChartContainer,
+#barChartContainer {
+    display: flex;
+    width: 100%;
+}
+
+#barChartStaticBtns button,
+#distBtns button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 按钮 hover/active 样式 */
+#modeToggle button:hover,
+#modeToggle button.active {
+    background: #e22b30;
+    color: #fefefe;
+    box-shadow: 0 0 12px #e22b30;
+}
+
+#barChartBtns button:hover,
+#barChartBtns button.active,
+#distBtns button:hover,
+#distBtns button.active {
+    background: #6699ff;
+    color: #fefefe;
+    box-shadow: 0 0 12px #6699ff;
+}
+
+#barChartStaticBtns button:hover,
+#barChartStaticBtns button.active {
+    background: #fec001;
+    color: #fefefe;
+    box-shadow: 0 0 12px #fec001;
+}
+
+#prodBtns button#pieBtnALL:hover,
+#prodBtns button#pieBtnALL.active {
+    background: #ff74b8;
+    color: #fefefe;
+    box-shadow: 0 0 12px #ff74b8;
+}
+
+#prodBtns button#pieBtn765AS:hover,
+#prodBtns button#pieBtn765AS.active {
+    background: #f34f6d;
+    color: #fefefe;
+    box-shadow: 0 0 12px #f34f6d;
+}
+
+#prodBtns button#pieBtnCG:hover,
+#prodBtns button#pieBtnCG.active {
+    background: #2681c8;
+    color: #fefefe;
+    box-shadow: 0 0 12px #2681c8;
+}
+
+#prodBtns button#pieBtnML:hover,
+#prodBtns button#pieBtnML.active {
+    background: #ffc30b;
+    color: #fefefe;
+    box-shadow: 0 0 12px #ffc30b;
+}
+
+#prodBtns button#pieBtnSideM:hover,
+#prodBtns button#pieBtnSideM.active {
+    background: #0fbe94;
+    color: #fefefe;
+    box-shadow: 0 0 12px #0fbe94;
+}
+
+#prodBtns button#pieBtnSC:hover,
+#prodBtns button#pieBtnSC.active {
+    background: #8dbbff;
+    color: #fefefe;
+    box-shadow: 0 0 12px #8dbbff;
+}
+
+#prodBtns button#pieBtnGK:hover,
+#prodBtns button#pieBtnGK.active {
+    background: #f39800;
+    color: #fefefe;
+    box-shadow: 0 0 12px #f39800;
+}
+
+#prodBtns button#pieBtnOthers:hover,
+#prodBtns button#pieBtnOthers.active {
+    background: #656a75;
+    color: #fefefe;
+    box-shadow: 0 0 12px #656a75;
+}
+
+/* 响应式 */
+@media (max-width: 900px) {
+
+    #barChartContainer,
+    #pieChartContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #barChart,
+    #distChart {
+        width: 100%;
+        flex: none;
+        height: 380px;
+    }
+
+    #legend {
+        padding: 6px;
+    }
+
+    .legend-item {
+        margin: 6px;
+        font-size: 14px;
+    }
+
+    #legend1:hover {
+        width: 64px;
+    }
+
+    #legend2:hover {
+        width: 41px;
+    }
+
+    #legend3:hover {
+        width: 40px;
+    }
+
+    #legend4:hover {
+        width: 60px;
+    }
+
+    #legend5:hover {
+        width: 39px;
+    }
+
+    #legend6:hover {
+        width: 48px;
+    }
+
+    #legend7:hover {
+        width: 65px;
+    }
+
+    #legend8:hover {
+        width: 101px;
+    }
+
+    #chartWrapper {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #barChart,
+    #distChart {
+        height: 300px;
+    }
+
+    .legend-item {
+        margin: 4px;
+        font-size: 12px;
+    }
+
+    #legend {
+        margin: 5px auto 15px;
+    }
+
+    #legend1:hover {
+        width: 58px;
+    }
+
+    #legend2:hover {
+        width: 38px;
+    }
+
+    #legend3:hover {
+        width: 37px;
+    }
+
+    #legend4:hover {
+        width: 55px;
+    }
+
+    #legend5:hover {
+        width: 36px;
+    }
+
+    #legend6:hover {
+        width: 44px;
+    }
+
+    #legend7:hover {
+        width: 59px;
+    }
+
+    #legend8:hover {
+        width: 90px;
+    }
+}

@@ -1,0 +1,575 @@
+@font-face {
+    font-family: 'font-title';
+    src: url('../assets/fonts/LXGWWenKai-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'font-typing';
+    src: url('../assets/fonts/yumindb.ttf');
+}
+
+body {
+    margin: 0;
+    background: transparent;
+    scroll-behavior: smooth;
+    font-family: 'font-title';
+    overflow-x: clip;
+    user-select: none;
+}
+
+/* loading 开始*/
+
+:root {
+    --contentWpx: 1280px;
+    --color-key: #fc69b4;
+    --color-key-rgb: 252, 105, 180;
+    --color-key-dark: #fc69b4;
+    --color-secondary: #005aa0;
+    --color-secondary-light: #1fafd3;
+    --color-gray: #d8dee2;
+    --color-key: #fc69b4;
+    --color-key-rgb: 252, 105, 180;
+    --color-1: #f34e6c;
+    --color-1-rgb: 243, 78, 108;
+    --color-2: #2581c7;
+    --color-2-rgb: 37, 129, 199;
+    --color-3: #ffc20b;
+    --color-3-rgb: 255, 194, 11;
+    --color-3-bg: #ecb40d;
+    --color-4: #11be93;
+    --color-4-rgb: 17, 190, 147;
+    --color-5: #8dbaff;
+    --color-5-bg: #74abff;
+    --color-5-rgb: 141, 186, 255;
+    --color-6: #f39800;
+    --color-6-rgb: 243, 152, 0;
+    --color-particle-1: #f0f0f0;
+    --color-particle-2: #FFd700;
+    --gradient-wide-stripe: repeating-linear-gradient(90deg, var(--color-2) 0%, var(--color-2) 16.6*1%, var(--color-3) 16.6*1%, var(--color-3) 16.6*2%, var(--color-4) 16.6*2%, var(--color-4) 16.6*3%, var(--color-5) 16.6*3%, var(--color-5) 16.6*4%, var(--color-6) 16.6*4%, var(--color-6) 16.6*5%, var(--color-1) 16.6*5%, var(--color-1) 100%, );
+    --gradient-wide: repeating-linear-gradient(90deg, var(--color-1) 0%, var(--color-2) 16.6*1%, var(--color-3) 16.6*2%, var(--color-4) 16.6*3%, var(--color-5) 16.6*4%, var(--color-6) 16.6*5%, var(--color-1) 95%, var(--color-1) 100%, );
+    --primary: #fd99cb;
+    --accent: #6699ff;
+    --bg-color-secondary: #f1faff;
+    --bg-color-secondary-2: #f0f7fc;
+    --header-H: 80px;
+    --leading-trim: calc((1em - 1lh) / 2);
+}
+
+@media screen and (max-width: 750px) {
+    :root {
+        --header-H: 0px
+    }
+}
+
+@supports not (top: 1lh) {
+    :root {
+        --leading-trim: 0px
+    }
+}
+
+.opening-top {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    background-color: #000;
+}
+
+@media screen and (max-width: 750px) {
+    .opening-top {
+        flex-direction: column
+    }
+}
+
+.opening-top::before {
+    content: "";
+    display: block;
+    position: absolute;
+    inset: 0;
+    background-color: #fff;
+    opacity: 0
+}
+
+.opening-top.is-to-finish {
+    background-color: rgba(0, 0, 0, 0)
+}
+
+.opening-top.is-to-finish::before {
+    animation: bgFlash .8s linear
+}
+
+.opening-top.is-finish {
+    visibility: hidden;
+    display: none
+}
+
+.opening-top__item {
+    flex: 1;
+    margin: 0 -1px;
+    height: 100%;
+    clip-path: inset(100% 0% 0% 0%)
+}
+
+@media screen and (max-width: 750px) {
+    .opening-top__item {
+        margin: -1px 0;
+        width: 100%;
+        height: 6%;
+        clip-path: inset(0% 100% 0% 0%)
+    }
+}
+
+.opening-top__item:nth-child(even) {
+    clip-path: inset(0% 0% 100% 0%)
+}
+
+@media screen and (max-width: 750px) {
+    .opening-top__item:nth-child(even) {
+        clip-path: inset(0% 0% 0% 100%)
+    }
+}
+
+.opening-top__item:nth-child(1) {
+    background-color: var(--color-5)
+}
+
+.opening-top__item:nth-child(2) {
+    background-color: var(--color-3)
+}
+
+.opening-top__item:nth-child(3) {
+    background-color: var(--color-1)
+}
+
+.opening-top__item:nth-child(4) {
+    background-color: var(--color-2)
+}
+
+.opening-top__item:nth-child(5) {
+    background-color: var(--color-4)
+}
+
+.opening-top__item:nth-child(6) {
+    background-color: var(--color-6)
+}
+
+.opening-top__item img {
+    width: 100%;
+    height: 115%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    -o-object-position: center center;
+    object-position: center center;
+    opacity: 0
+}
+
+@media screen and (max-width: 750px) {
+    .opening-top__item img {
+        width: 115%;
+        height: 100%
+    }
+}
+
+.opening-top__item:nth-child(odd) img {
+    position: relative;
+    top: -15%
+}
+
+@media screen and (max-width: 750px) {
+    .opening-top__item:nth-child(odd) img {
+        top: 0%;
+        left: -15%
+    }
+}
+
+@keyframes bgFlash {
+    0% {
+        opacity: 1
+    }
+
+    80% {
+        opacity: 0
+    }
+
+    100% {
+        opacity: 0
+    }
+}
+
+/* loading 结束*/
+
+/* 滚动条 */
+::-webkit-scrollbar {
+    display: none;
+}
+
+#bodyContainer {
+    margin: 0;
+    padding: 20px;
+    display: grid;
+    place-items: center;
+    transition: 1s ease-in-out;
+    background: transparent;
+    font-family: 'font-title';
+}
+
+::selection {
+    background-color: #ff74b8;
+    color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: #6699ff;
+}
+
+a:hover {
+    color: #fefefe;
+    box-shadow: rgba(66, 89, 239, 0.137) 0px 8px 12px -3px;
+    border-radius: 4px;
+    transition: 0.4s ease-in-out;
+    background: #6699ff;
+}
+
+button:focus-visible {
+    outline: none;
+}
+
+/* 侧边弹窗样式 */
+
+#reminder {
+    position: fixed;
+    top: 18%;
+    right: -340px;
+    transform: translateY(-50%);
+    width: 300px;
+    padding: 20px;
+    background: #ffffffe0;
+    box-shadow: inset 0 0 12px #656a75;
+    border-radius: 8px 0 0 8px;
+    transition: right 1s ease-in-out;
+    z-index: 9999;
+    color: #333;
+}
+
+/* 背景图样式 */
+
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    z-index: -1;
+}
+
+video#bg {
+    object-position: center 30%;
+}
+
+#title {
+    width: fit-content;
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, #f34f6d, #2681c8, #ffc30b, #0fbe94, #8dbbff, #f39800);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding: 0.5rem 1.5rem;
+    display: block;
+    text-align: center;
+    position: relative;
+    border: none;
+    font-family: 'font-title';
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    text-shadow: #fff 0 0 15px;
+    cursor: pointer;
+    transition: transform 0.4s ease-in-out;
+}
+
+#title::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #ff74b8, transparent);
+}
+
+/* 悬停动画效果 */
+#title:hover {
+    transform: translateY(-2px) scale(1.02);
+}
+
+/* 侧边栏 */
+#side-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    opacity: 0.98;
+    position: fixed;
+    right: 12px;
+    bottom: 36px;
+    z-index: 100;
+}
+
+#return-button {
+    opacity: 0.98;
+    position: fixed;
+    right: 12px;
+    bottom: 40px;
+    z-index: 100;
+}
+
+#return-button,
+#side-buttons button {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'font-title';
+    font-size: 15px;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #1f1f1fb3;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+    box-shadow: 0 0 12px #ffffffb3;
+}
+
+#side-buttons #return-button {
+    position: static;
+}
+
+#return-button:hover,
+#side-buttons button:hover {
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    box-shadow: 0 0 8px var(--accent), 0 0 12px var(--primary);
+}
+
+#side-buttons button#go-up:hover svg {
+    display: block !important;
+}
+
+#side-buttons button#go-up:hover #percent {
+    display: none !important;
+}
+
+#return-button svg,
+#side-buttons button svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+
+#side-buttons button#go-up #percent {
+    display: none;
+    font-weight: bold;
+}
+
+#side-buttons button#go-up #percent span {
+    font-size: 12px;
+    margin-right: -1px;
+}
+
+/* 全局响应式 */
+@media (max-width: 808px) {
+    #bodyContainer {
+        padding: 15px 10px;
+    }
+
+    h1 {
+        margin-block: 1.5em;
+    }
+
+    #title {
+        font-size: 3rem;
+        padding: 0.3rem 1rem;
+    }
+
+    #return-button {
+        right: 12px;
+        bottom: 36px;
+    }
+
+    #return-button,
+    #side-buttons button {
+        width: 34px;
+        height: 34px;
+    }
+
+    #return-button svg,
+    #side-buttons button svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    #title {
+        font-size: 2rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    #reminder {
+        width: 240px;
+        right: -280px;
+        font-size: 14px;
+        padding: 15px;
+    }
+}
+
+/* 鼠标点击星星特效 */
+
+.cDecoBox {
+    position: fixed;
+    width: 0;
+    height: 0;
+    z-index: 99999;
+    pointer-events: none;
+}
+
+.cDecoBox ul {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+}
+
+.cDecoBox ul li {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    list-style: none;
+    opacity: 0;
+}
+
+.cDecoBox ul li:nth-child(1) {
+    background: url("../assets/img/deco_kira_a.png") center center no-repeat;
+    width: 28px;
+    height: 28px;
+    bottom: 7px;
+    left: -9px;
+}
+
+.cDecoBox ul li:nth-child(2) {
+    background: url("../assets/img/deco_kira_b.png") center center no-repeat;
+    width: 18px;
+    height: 29px;
+    bottom: -14px;
+    left: 11px;
+}
+
+.cDecoBox ul li:nth-child(3) {
+    background: url("../assets/img/deco_kira_c.png") center center no-repeat;
+    width: 20px;
+    height: 21px;
+    top: 6px;
+    left: 0;
+}
+
+.cDecoBox ul li:nth-child(4) {
+    background: url("../assets/img/deco_kira_d.png") center center no-repeat;
+    width: 26px;
+    height: 22px;
+    top: 5px;
+    right: 1px;
+}
+
+.cDecoBox ul li:nth-child(5) {
+    background: url("../assets/img/deco_kira_e.png") center center no-repeat;
+    width: 24px;
+    height: 32px;
+    bottom: -4px;
+    right: 4px;
+}
+
+.cDecoBox.anime ul li:nth-child(1) {
+    animation: clickDeco1 0.5s linear;
+}
+
+.cDecoBox.anime ul li:nth-child(2) {
+    animation: clickDeco2 0.5s linear;
+}
+
+.cDecoBox.anime ul li:nth-child(3) {
+    animation: clickDeco3 0.5s linear;
+}
+
+.cDecoBox.anime ul li:nth-child(4) {
+    animation: clickDeco4 0.5s linear;
+}
+
+.cDecoBox.anime ul li:nth-child(5) {
+    animation: clickDeco5 0.5s linear;
+}
+
+@keyframes clickDeco1 {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(5px, -9px);
+    }
+}
+
+@keyframes clickDeco2 {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(10px, 0);
+    }
+}
+
+@keyframes clickDeco3 {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(8px, 8px);
+    }
+}
+
+@keyframes clickDeco4 {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-3px, 8px);
+    }
+}
+
+@keyframes clickDeco5 {
+    0% {
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-7px, -4px);
+    }
+}

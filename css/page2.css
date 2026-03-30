@@ -1,0 +1,159 @@
+/* css/page2.css — 复杂图表页面 (sc, ml, cg, sidem) */
+
+.legend {
+    width: fit-content;
+    text-align: center;
+    margin: 10px 0 30px;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #ffffffe0;
+    border-radius: 4px;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+}
+
+.legend-item {
+    margin: 10px;
+}
+
+#chartWrapper {
+    width: 100%;
+    max-width: 900px;
+    background: #ffffffe0;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+    box-sizing: border-box;
+}
+
+#valueMode,
+#ratioMode {
+    display: none;
+}
+
+#modeToggle button,
+#barChartStaticBtns button,
+#barChartBtns button,
+#prodBtns button,
+#distBtns button {
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    font-family: 'font-title';
+    cursor: pointer;
+    transition: 0.4s ease-in-out;
+}
+
+#barChartStaticBtns button,
+#distBtns button {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#modeToggle button:hover,
+#modeToggle button.active {
+    background: #e22b30;
+    color: #fefefe;
+    box-shadow: 0 0 12px #e22b30;
+}
+
+#barChartBtns button:hover,
+#barChartBtns button.active,
+#distBtns button:hover,
+#distBtns button.active {
+    background: #6699ff;
+    color: #fefefe;
+    box-shadow: 0 0 12px #6699ff;
+}
+
+#barChartStaticBtns button:hover,
+#barChartStaticBtns button.active {
+    background: #fec001;
+    color: #fefefe;
+    box-shadow: 0 0 12px #fec001;
+}
+
+#radarChart {
+    width: 100%;
+    height: clamp(280px, 50vw, 500px);
+}
+
+#barChart {
+    flex: 1;
+    min-width: 0;
+    height: clamp(280px, 50vw, 500px);
+}
+
+#distChart {
+    flex: 1;
+    min-width: 0;
+    height: clamp(280px, 50vw, 500px);
+}
+
+/* 响应式 */
+@media (max-width: 808px) {
+    #chartWrapper {
+        padding-top: 10px;
+        max-width: 100%;
+        border-radius: 8px;
+    }
+
+    #barChart,
+    #distChart {
+        width: 100%;
+        flex: none;
+        height: 350px;
+    }
+
+    #radarChart {
+        width: 100%;
+        flex: none;
+        height: auto;
+        aspect-ratio: 6 / 5;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+
+    .legend-item {
+        margin: 6px;
+        font-size: 14px;
+    }
+
+    .legend {
+        margin: 10px 0 20px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    #barChart,
+    #distChart {
+        height: 300px;
+    }
+
+    #radarChart {
+        aspect-ratio: 1 / 1;
+        padding: 5px;
+        min-height: 250px;
+    }
+
+    .legend {
+        margin: 6px 0 20px;
+        padding: 4px 6px;
+    }
+
+    .legend-item {
+        margin: 4px;
+        font-size: 12px;
+    }
+}

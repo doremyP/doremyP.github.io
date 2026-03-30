@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>765PRO ALLSTARS</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/bg.css">
+    <link rel="stylesheet" href="css/page1.css">
+    <link rel="stylesheet" href="css/toolPanel.css">
+    <style>
+        h1 #title {
+            color: #f34f6d;
+            text-shadow: #f34f6d 0 0 15px;
+        }
+
+        h1 #title::after {
+            background: linear-gradient(90deg, transparent, #f34f6d, transparent);
+        }
+
+        #bg {
+            object-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="js-opening-top" class="opening-top"></div>
+    <picture>
+        <source media="(max-width: 750px)" srcset="assets/img/765asbg2.jpg">
+        <img src="assets/img/765PRONEVERENDIDOLKV.jpg" alt="" id="bg" />
+    </picture>
+    <div id="bodyContainer">
+        <h1><button id="title">765PRO ALLSTARS</button></h1>
+        <div id="radarChart"></div>
+    </div>
+    <script src="js/opening.js"></script>
+    <script src="js/title.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/chartConfig.js"></script>
+    <script>
+        window.SIMPLE_CONFIG = {
+            prodKey: 'THE IDOLM@STER',
+            seriesName: '765PRO ALLSTARS',
+            seriesColor: '#f34f6d',
+            radarIndicator: [
+                { name: '年龄', min: 15, max: 17.5 },
+                { name: '身高(cm)', min: 155, max: 160.5 },
+                { name: '体重(kg)', min: 40, max: 48.5 },
+                { name: '胸围(cm)', min: 79, max: 82 },
+                { name: '腰围(cm)', min: 53, max: 57 },
+                { name: '臀围(cm)', min: 78, max: 83 }
+            ]
+        };
+    </script>
+    <script src="js/simplePage.js"></script>
+    <script src="js/clickEffect.js"></script>
+    <script src="js/toolPanel.js"></script>
+    <script src="js/gsap.min.js"></script>
+    <script src="js/loading.js"></script>
+</body>
+
+</html>

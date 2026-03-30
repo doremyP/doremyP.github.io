@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Others</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="stylesheet" href="css/bg.css">
+    <link rel="stylesheet" href="css/page1.css">
+    <link rel="stylesheet" href="css/toolPanel.css">
+    <style>
+        h1 #title {
+            color: #656a75;
+            text-shadow: #656a75 0 0 15px;
+        }
+
+        h1 #title::after {
+            background: linear-gradient(90deg, transparent, #656a75, transparent);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="js-opening-top" class="opening-top"></div>
+    <img alt="" id="bg" data-img='76823812_p0.png,961pro.png,0614e4c3-a7e0-45ab-852a-9ba405cd1fa0.png' />
+    <div id="reminder">
+        <h3 style="margin:0px;">背景图作者：<a href="https://www.pixiv.net/users/3135839" target="_blank"
+                class="reminder">HINA</a></h3>
+        <h3 style="margin:8px 0 6px;">原图地址：</h3>
+        <a href="https://www.pixiv.net/artworks/76823812" target="_blank"
+            class="reminder">https://www.pixiv.net/artworks/76823812</a>
+    </div>
+    <div id="bodyContainer">
+        <h1><button id="title">Others</button></h1>
+        <div id="radarChart"></div>
+    </div>
+    <script src="js/opening.js"></script>
+    <script src="js/title.js"></script>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/chartConfig.js"></script>
+    <script>
+        // Random background
+        (function () {
+            const bg = document.getElementById('bg');
+            let images = bg.dataset.img.split(',');
+            let idx = Math.floor(Math.random() * images.length);
+            bg.src = 'assets/img/' + images[idx];
+        })();
+
+        window.SIMPLE_CONFIG = {
+            prodKey: 'Others',
+            mergeProductions: ['961 Production', '876 Production'],
+            seriesName: 'Others',
+            seriesColor: '#656a75',
+            radarIndicator: [
+                { name: '年龄', min: 15, max: 17.5 },
+                { name: '身高(cm)', min: 155, max: 160.5 },
+                { name: '体重(kg)', min: 40, max: 48.5 },
+                { name: '胸围(cm)', min: 79, max: 82 },
+                { name: '腰围(cm)', min: 53, max: 57 },
+                { name: '臀围(cm)', min: 78, max: 83 }
+            ]
+        };
+    </script>
+    <script src="js/simplePage.js"></script>
+    <script>
+        // Background author reminder
+        (function () {
+            if (document.getElementById('bg').src.slice(-15) !== '76823812_p0.png') return;
+            var popup = document.getElementById('reminder');
+            if (!popup) return;
+            var visibleDuration = 5000;
+            var hideTimer;
+            popup.addEventListener('mouseenter', function () {
+                clearTimeout(hideTimer);
+                popup.style.right = '0';
+            });
+            popup.addEventListener('mouseleave', function () {
+                hideTimer = setTimeout(hidePopup, visibleDuration);
+            });
+            function hidePopup() {
+                popup.style.right = '-340px';
+            }
+            var el = document.querySelector('#js-opening-top');
+            function showReminder() {
+                setTimeout(function () {
+                    popup.style.right = '0';
+                    hideTimer = setTimeout(hidePopup, visibleDuration);
+                }, 600);
+            }
+            if (!el || el.classList.contains('is-finish')) { showReminder(); }
+            else { document.addEventListener('openingFinish', showReminder, { once: true }); }
+        })();
+    </script>
+    <script src="js/clickEffect.js"></script>
+    <script src="js/toolPanel.js"></script>
+    <script src="js/gsap.min.js"></script>
+    <script src="js/loading.js"></script>
+</body>
+
+</html>

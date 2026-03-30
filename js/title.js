@@ -1,0 +1,17 @@
+(function () {
+    const bg = document.getElementById('bg');
+    if (!bg) return;
+    const btn = document.getElementById('title');
+
+    const container = document.getElementById('bodyContainer');
+    btn.addEventListener('click', function () {
+        container.style.opacity = 0;
+        setTimeout(function () {
+            bg.style.zIndex = 1000;
+        }, 1000);
+        setTimeout(function () {
+            container.style.opacity = 1;
+            bg.style.zIndex = -1;
+        }, 4000);
+    });
+})();

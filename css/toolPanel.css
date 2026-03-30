@@ -1,0 +1,424 @@
+/* css/toolPanel.css — 浮动工具按钮 + 图表筛选面板 */
+
+#toolPanelWrap ::-webkit-scrollbar {
+    display: none;
+}
+
+/* 工具按钮 */
+#tool-button {
+    position: fixed;
+    right: 12px;
+    bottom: 94px;
+    z-index: 100;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    background-color: #1f1f1fb3;
+    cursor: pointer;
+    transition: .4s ease-in-out;
+    box-shadow: 0 0 12px #ffffffb3;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#side-buttons #tool-button {
+    position: static;
+}
+
+#tool-button:hover,
+#tool-button.active {
+    background: linear-gradient(135deg, #ff74b8, #6699ff);
+    box-shadow: 0 0 8px #ff74b8, 0 0 12px #6699ff;
+}
+
+@keyframes gear-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#tool-button svg {
+    width: 18px;
+    height: 18px;
+    animation: gear-spin 4s linear infinite;
+}
+
+#tool-button:hover svg,
+#tool-button.active svg {
+    animation-duration: 1s;
+}
+
+/* 遮罩 */
+#toolPanelBackdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.7) url('../assets/img/bg_geo_pc.svg') center / 100%;
+    backdrop-filter: blur(10px);
+    z-index: 140;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity 0.6s, visibility 0.6s;
+}
+
+#toolPanelBackdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+/* 居中包裹层 */
+#toolPanelWrap {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+/* 面板 */
+#toolPanel {
+    width: 320px;
+    max-height: 70vh;
+    overflow: hidden;
+    padding: 24px 20px;
+    background: rgba(255, 255, 255, 0.5);
+    filter: drop-shadow(rgba(71, 68, 150, 0.25) 0px 6px 8px);
+    border-radius: 16px;
+    font-family: 'font-title';
+    pointer-events: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 面板内层滚动容器 */
+#toolPanelInner {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 10px;
+    margin: 0 -10px;
+}
+
+#toolPanel::before,
+#toolPanel::after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 120px;
+    height: 120px;
+    background: url('../assets/img/icon_tri.svg') center / contain no-repeat;
+    pointer-events: none;
+    z-index: -1;
+}
+
+#toolPanel::before {
+    top: 0;
+    left: 0;
+}
+
+#toolPanel::after {
+    bottom: 0;
+    right: 0;
+    transform: scale(-1, -1);
+}
+
+/* 面板关闭按钮 */
+#toolPanelWrap .panel-close {
+    display: block;
+    width: 48px;
+    margin-top: 20px;
+    cursor: pointer;
+    filter: drop-shadow(rgba(71, 68, 150, 0.25) 0px 6px 8px);
+    transition: filter 0.3s;
+    position: relative;
+    pointer-events: auto;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#toolPanelWrap .panel-close img {
+    display: block;
+    width: 100%;
+    transition: opacity 0.3s;
+}
+
+#toolPanelWrap .panel-close .close-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+#toolPanelWrap .panel-close:hover {
+    filter: none;
+}
+
+#toolPanelWrap .panel-close:hover .close-off {
+    opacity: 0;
+}
+
+#toolPanelWrap .panel-close:hover .close-hover {
+    opacity: 1;
+}
+
+/* 面板分区 */
+.toolPanel-section {
+    margin-bottom: 20px;
+}
+
+.toolPanel-section-title {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #c0c0c0;
+    letter-spacing: 0.05em;
+}
+
+/* 面板内 modeToggle 覆盖样式 */
+#toolPanel #modeToggle {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 12px;
+    padding: 6px 0;
+}
+
+#toolPanel #modeToggle button {
+    width: auto;
+    min-width: 70px;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+/* 面板内控件按钮通用覆盖 */
+#toolPanel #barChartBtns,
+#toolPanel #barChartStaticBtns,
+#toolPanel #distBtns,
+#toolPanel #prodBtns {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-self: auto;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+#toolPanel button,
+#toolPanel select,
+#toolPanel a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+#toolPanel button {
+    color: #000;
+}
+
+#toolPanel button:hover,
+#toolPanel button:active {
+    color: #fff;
+}
+
+
+#toolPanel #barChartBtns button,
+#toolPanel #barChartStaticBtns button,
+#toolPanel #distBtns button,
+#toolPanel #prodBtns button {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    font-size: 13px;
+    padding: 6px 12px;
+}
+
+/* 响应式：平板 & 移动端 — 面板变为底部弹出 */
+@media (max-width: 808px) {
+
+    #toolPanel #modeToggle,
+    #toolPanel #barChartBtns,
+    #toolPanel #barChartStaticBtns,
+    #toolPanel #distBtns,
+    #toolPanel #prodBtns {
+        margin-right: 16px;
+    }
+
+    #tool-button {
+        width: 34px;
+        height: 34px;
+        right: 12px;
+        bottom: 86px;
+    }
+
+    #side-buttons #tool-button {
+        position: static;
+        right: auto;
+        bottom: auto;
+    }
+
+    #tool-button svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    #toolPanel {
+        width: 90%;
+        max-width: 360px;
+        max-height: 65vh;
+        padding: 20px 16px;
+    }
+
+    #toolPanel::before,
+    #toolPanel::after {
+        width: 80px;
+        height: 80px;
+    }
+
+    #toolPanelWrap .panel-close {
+        width: 40px;
+        margin-top: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    #toolPanel {
+        padding: 16px 12px;
+        padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    }
+
+    #toolPanel #modeToggle button {
+        min-width: 60px;
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    #toolPanel #barChartBtns button,
+    #toolPanel #barChartStaticBtns button,
+    #toolPanel #distBtns button,
+    #toolPanel #prodBtns button {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .toolPanel-section-title {
+        font-size: 12px;
+    }
+
+    #toolPanel .all-filter-btn {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    #toolPanel select {
+        font-size: 13px;
+        padding: 7px 28px 7px 8px;
+    }
+
+    .all-filter-row {
+        flex-wrap: wrap;
+    }
+
+    .all-filter-row select {
+        flex: 1 1 100%;
+    }
+}
+
+/* =========================================
+   all.html 面板内筛选控件
+   ========================================= */
+.all-filter-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+#toolPanel .all-filter-btn {
+    padding: 6px 12px;
+    border: 1px solid #c0c0c0;
+    background: transparent;
+    border-radius: 6px;
+    font-family: 'font-title';
+    font-size: 13px;
+    color: #000;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    --btn-color: #656a75;
+}
+
+#toolPanel .all-filter-btn:hover {
+    border-color: var(--btn-color);
+    color: var(--btn-color);
+    box-shadow: 0 0 6px var(--btn-color);
+}
+
+#toolPanel .all-filter-btn.active {
+    background-color: var(--btn-color);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 0 8px var(--btn-color);
+    text-shadow: 0 0 4px var(--text-main);
+}
+
+#toolPanel .all-idol-btn.active {
+    background: linear-gradient(135deg, #f34f6d, #2681c8, #ffc30b, #0fbe94, #8dbbff, #f39800);
+    border-color: transparent;
+    box-shadow: 0 0 8px var(--btn-color);
+}
+
+/* 统一 select 样式（仿 idolmaster-official 风格） */
+#toolPanel select {
+    width: 100%;
+    padding: 9px 26px 9px 12px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    font-family: 'font-title';
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23999' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#toolPanel select:hover,
+#toolPanel select:focus {
+    outline: none;
+    border-color: #ff74b8;
+    box-shadow: 0 0 8px rgba(255, 116, 184, 0.9);
+}
+
+/* 筛选行布局 */
+.all-filter-row {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+}
+
+.all-filter-row select {
+    flex: 1;
+    min-width: 96px;
+}
